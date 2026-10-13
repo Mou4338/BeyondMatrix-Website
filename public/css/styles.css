@@ -874,3 +874,12 @@ header.site .logo{flex:none}
 .adm-logo small{font:600 .7rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:#8C96B8}
 @media (max-width:980px){.logo-img{height:42px}}
 @media (max-width:420px){.logo-img{height:38px}.logo-img-foot{height:58px}}
+
+/* full logo lockup in header */
+header.site .wrap{height:100px}
+.logo-img.logo-full{height:76px}
+.mnav .logo-img.logo-full{height:48px}
+@media (max-width:1180px){.logo-img.logo-full{height:56px}}
+@media (max-width:980px){header.site .wrap{height:78px}.logo-img.logo-full{height:52px}}
+@media (max-width:420px){header.site .wrap{height:70px}.logo-img.logo-full{height:44px}}
+.subnav{top:calc(env(safe-area-inset-top,0px) + 108px)}

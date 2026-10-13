@@ -562,7 +562,7 @@ const photo=(k,cls='')=>{const src=PHOTO_SRC[k];const sc=SC[k]||SC[FALLBACK[k]]|
   return `<div class="photo ${cls}">${sc()}${src?`<img src="${PX(src[0])}" alt="${src[1]}" loading="lazy" onerror="this.remove()">`:''}</div>`};
 
 /* ============ V2 LAYOUT (reference-matched) ============ */
-const LOGO_SRC={navy:'images/logo.png',white:'images/logo-white.png',footer:'images/logo-full-white.png'};
+const LOGO_SRC={full:'images/logo-full.png',navy:'images/logo.png',white:'images/logo-white.png',footer:'images/logo-full-white.png'};
 const SVC_PHOTO={'ipo-advisory':'present','fund-raising':'fund','debt-advisory':'tower','virtual-cfo-services':'analyst','mergers-acquisitions':'deal','corporate-finance-advisory':'strategy'};
 const LOGO=`<span class="logo-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M4 18 10 6l4 8 2-4 4 8"/></svg></span>`;
 function header(route){
@@ -570,7 +570,7 @@ function header(route){
   return `
   <div class="topbar"><div class="wrap"><div class="tb-l"><span>${ic('mail')} ${SITE.email}</span><span class="tb-sep hide-sm"></span><span class="hide-sm">${ic('pin')} Andheri East, Mumbai 400059</span></div><span class="hide-sm">${ic('clock')} ${SITE.hours}</span></div></div>
   <header class="site"><div class="wrap">
-    <a class="logo" href="#home" aria-label="Beyond Matrix Capital home"><img class="logo-img" src="${LOGO_SRC.navy}" alt="Beyond Matrix Capital" width="886" height="332"></a>
+    <a class="logo" href="#home" aria-label="Beyond Matrix Capital home"><img class="logo-img logo-full" src="${LOGO_SRC.full}" alt="Beyond Matrix Capital: Your Partner in Growth & Wealth Creation" width="1392" height="332"></a>
     <nav class="main" aria-label="Main">
       <a href="#home" class="${route==='home'?'active':''}">Home</a>
       <a href="#about-us" class="${route==='about-us'?'active':''}">About</a>
@@ -585,7 +585,7 @@ function header(route){
     </div>
   </div></header>
   <div class="mnav" id="mnav" hidden>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span class="logo"><img class="logo-img" src="${LOGO_SRC.navy}" alt="Beyond Matrix Capital" width="886" height="332"></span><button class="icon-btn" id="mclose" aria-label="Close menu">${ic('x')}</button></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span class="logo"><img class="logo-img logo-full" src="${LOGO_SRC.full}" alt="Beyond Matrix Capital: Your Partner in Growth & Wealth Creation" width="1392" height="332"></span><button class="icon-btn" id="mclose" aria-label="Close menu">${ic('x')}</button></div>
     <a href="#home">Home</a><a href="#about-us">About</a><a href="#services">Services</a>
     <div class="sub">${SERVICES.map(s=>`<a href="#${s.slug}">${s.title}</a>`).join('')}</div>
     <a href="#toolkit">Toolkit</a><a href="#contact-us">Contact</a><a href="#admin">Staff login</a>
