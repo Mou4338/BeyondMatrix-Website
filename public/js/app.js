@@ -562,6 +562,7 @@ const photo=(k,cls='')=>{const src=PHOTO_SRC[k];const sc=SC[k]||SC[FALLBACK[k]]|
   return `<div class="photo ${cls}">${sc()}${src?`<img src="${PX(src[0])}" alt="${src[1]}" loading="lazy" onerror="this.remove()">`:''}</div>`};
 
 /* ============ V2 LAYOUT (reference-matched) ============ */
+const LOGO_SRC={navy:'images/logo.png',white:'images/logo-white.png',footer:'images/logo-full-white.png'};
 const SVC_PHOTO={'ipo-advisory':'present','fund-raising':'fund','debt-advisory':'tower','virtual-cfo-services':'analyst','mergers-acquisitions':'deal','corporate-finance-advisory':'strategy'};
 const LOGO=`<span class="logo-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M4 18 10 6l4 8 2-4 4 8"/></svg></span>`;
 function header(route){
@@ -569,7 +570,7 @@ function header(route){
   return `
   <div class="topbar"><div class="wrap"><div class="tb-l"><span>${ic('mail')} ${SITE.email}</span><span class="tb-sep hide-sm"></span><span class="hide-sm">${ic('pin')} Andheri East, Mumbai 400059</span></div><span class="hide-sm">${ic('clock')} ${SITE.hours}</span></div></div>
   <header class="site"><div class="wrap">
-    <a class="logo" href="#home" aria-label="Beyondmatrix home">${LOGO}<span>Beyondmatrix</span></a>
+    <a class="logo" href="#home" aria-label="Beyond Matrix Capital home"><img class="logo-img" src="${LOGO_SRC.navy}" alt="Beyond Matrix Capital" width="886" height="332"></a>
     <nav class="main" aria-label="Main">
       <a href="#home" class="${route==='home'?'active':''}">Home</a>
       <a href="#about-us" class="${route==='about-us'?'active':''}">About</a>
@@ -584,7 +585,7 @@ function header(route){
     </div>
   </div></header>
   <div class="mnav" id="mnav" hidden>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span class="logo">${LOGO}Beyondmatrix</span><button class="icon-btn" id="mclose" aria-label="Close menu">${ic('x')}</button></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span class="logo"><img class="logo-img" src="${LOGO_SRC.navy}" alt="Beyond Matrix Capital" width="886" height="332"></span><button class="icon-btn" id="mclose" aria-label="Close menu">${ic('x')}</button></div>
     <a href="#home">Home</a><a href="#about-us">About</a><a href="#services">Services</a>
     <div class="sub">${SERVICES.map(s=>`<a href="#${s.slug}">${s.title}</a>`).join('')}</div>
     <a href="#toolkit">Toolkit</a><a href="#contact-us">Contact</a><a href="#admin">Staff login</a>
@@ -596,7 +597,7 @@ function footer(){
   return `<footer class="site"><div class="wrap">
   <div class="f-cta"><h2>Have a financing or transaction question?</h2><a class="btn btn-light" href="#contact-us">Book Consultation <span class="arrow-dot">${ic('arrow')}</span></a></div>
   <div class="fgrid">
-    <div style="display:grid;gap:14px;align-content:start"><a class="logo" href="#home">${LOGO}<span>Beyondmatrix</span></a>
+    <div style="display:grid;gap:14px;align-content:start"><a class="logo" href="#home" aria-label="Beyond Matrix Capital home"><img class="logo-img-foot" src="${LOGO_SRC.footer}" alt="Beyond Matrix Capital: Your Partner in Growth & Wealth Creation" width="1392" height="332"></a>
       <p>${SITE.name} is a corporate finance and investment banking advisory firm helping Indian businesses raise capital, list, borrow and transact with confidence.</p>
       <form class="news" id="newsForm" novalidate><label for="nEmail" class="hp">Email for insights</label><input id="nEmail" type="email" placeholder="Email for quarterly insights"><button class="btn btn-primary btn-sm">Subscribe</button></form><small id="newsMsg" aria-live="polite"></small></div>
     <div><h4>Company</h4><ul><li><a href="#home">Home</a></li><li><a href="#about-us">About Us</a></li><li><a href="#services">All services</a></li><li><a href="#toolkit">Finance toolkit</a></li><li><a href="#contact-us">Contact Us</a></li><li><a href="#admin">Staff login</a></li></ul></div>
@@ -699,7 +700,7 @@ function filtered(){
 }
 function adminShell(){
   const L=leads();const hasDemo=L.some(l=>l.demo);
-  return `<div class="adm"><aside class="adm-side"><span class="logo"><span class="logo-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M4 18 10 6l4 8 2-4 4 8"/></svg></span>Console</span>
+  return `<div class="adm"><aside class="adm-side"><span class="logo adm-logo"><img class="logo-img" src="${LOGO_SRC.white}" alt="Beyond Matrix Capital" width="886" height="332"><small>Staff console</small></span>
   <button data-av="dashboard" class="${adm.view==='dashboard'?'on':''}">${ic('grid')} Dashboard</button>
   <button data-av="leads" class="${adm.view==='leads'?'on':''}">${ic('inbox')} Leads <span style="margin-left:auto;font-size:.75rem;background:rgba(255,255,255,.12);padding:1px 8px;border-radius:999px">${L.filter(l=>l.status==='NEW').length}</span></button>
   <button data-av="content" class="${adm.view==='content'?'on':''}">${ic('edit')} Site content</button>

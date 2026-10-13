@@ -17,7 +17,8 @@ beyondmatrix-website/
 │   ├── css/styles.css       ← all design and colours
 │   ├── js/app.js            ← pages, content, forms, calculators, staff console
 │   ├── images/hero-advisers.webp
-│   ├── favicon.svg, robots.txt, sitemap.xml, 404.html
+│   ├── images/logo*.png      ← company logo (navy, white, full lockup with tagline)
+│   ├── favicon.ico/.png, apple-touch-icon.png, robots.txt, sitemap.xml, 404.html
 ├── api/
 │   └── inquiry.js           ← form handler: checks inquiries and emails them to your team
 ├── server.js                ← local server for VS Code (npm start)

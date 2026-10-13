@@ -863,3 +863,14 @@ section{padding-block:clamp(72px,9vw,112px)}
 .statstrip{background:linear-gradient(90deg,var(--b-sapphire),var(--b-royal),var(--b-cerulean))}
 .form-head{background:linear-gradient(135deg,var(--b-navy),var(--b-sapphire))}
 footer.site{background:linear-gradient(180deg,var(--b-navy),#070F2B)}
+
+/* ===== brand logo ===== */
+.logo-img{height:56px;width:auto;display:block;max-width:100%}
+header.site .logo{flex:none}
+.mnav .logo-img{height:40px}
+.logo-img-foot{height:72px;width:auto;display:block;max-width:100%}
+.adm-logo{display:grid!important;gap:6px;margin:0 8px 22px}
+.adm-logo .logo-img{height:40px}
+.adm-logo small{font:600 .7rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:#8C96B8}
+@media (max-width:980px){.logo-img{height:42px}}
+@media (max-width:420px){.logo-img{height:38px}.logo-img-foot{height:58px}}
