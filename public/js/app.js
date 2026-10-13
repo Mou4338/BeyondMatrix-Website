@@ -1034,17 +1034,16 @@ function bindMotion(){
 const GLANCE=[['clock','12','+','Years of advisory experience','Capital markets, credit, valuation and CFO'],['coin','₹500',' Cr+','Capital raised for clients','Across equity, debt and hybrid structures'],['users','100','+','Active client profiles','Promoter-led businesses across sectors'],['grid','6','','Integrated practice areas','One team from first call to closing']];
 const glanceHTML=()=>`<section class="glance-sec"><div class="wrap"><div class="glance">${GLANCE.map(([i,v,suf,l,c])=>`<div class="gl-card"><span class="ico-ring">${ic(i)}</span><b class="gl-num" data-count="${v.replace(/[^\d]/g,'')}" data-pre="${v.replace(/\d/g,'')}" data-suf="${suf}">${v}${suf}</b><span class="gl-l">${l}</span><small>${c}</small><i class="gl-bar"></i></div>`).join('')}</div></div></section>`;
 const STEPS4=['Assess','Structure','Execute','Support'];
-const explorerHTML=()=>`<div class="xp" id="xp"><div class="xp-list" role="tablist" aria-label="Services" aria-orientation="vertical">${SERVICES.map((s,i)=>`<button role="tab" id="xpt-${i}" aria-selected="${i===0}" aria-controls="xp-panel" data-i="${i}" tabindex="${i===0?0:-1}"><span class="ico-box">${ic(s.icon)}</span><span><b>${s.title}</b><small>${s.tag}</small></span><span class="xp-no">${String(i+1).padStart(2,'0')}</span></button>`).join('')}</div><div class="xp-panel" id="xp-panel" role="tabpanel" aria-live="polite">${xpPanel(0)}</div></div>`;
-function xpPanel(i){const s=SERVICES[i];return `<div class="xp-media">${photo(SVC_PHOTO[s.slug],'xp-ph')}<span class="xp-tag">${s.tag}</span></div>
- <div class="xp-body"><h3>${s.title}</h3><p class="muted">${s.overview}</p>
- <div class="xp-cols"><div><span class="xp-h">What's included</span><ul class="xp-ul">${s.features.slice(0,5).map(f=>`<li>${ic('checkc')}${f[0]}</li>`).join('')}</ul></div>
- <div><span class="xp-h">What you gain</span><ul class="xp-ul">${s.benefits.map(b=>`<li>${ic('trend')}${b}</li>`).join('')}</ul></div></div>
- <div class="xp-flow">${STEPS4.map((st,k)=>`<div><span>${k+1}</span>${st}</div>`).join('<i></i>')}</div>
- <div class="hero-actions"><a class="btn btn-primary" href="#${s.slug}">Explore ${s.title} <span class="arrow-dot">${ic('arrow')}</span></a><a class="btn btn-ghost" href="#${s.slug}" data-consult>Request consultation</a></div></div>`}
+const explorerHTML=()=>`<div class="xpx" id="xp"><div class="xpx-tabs" role="tablist" aria-label="Services">${SERVICES.map((s,i)=>`<button role="tab" id="xpt-${i}" aria-selected="${i===0}" aria-controls="xp-panel" data-i="${i}" tabindex="${i===0?0:-1}"><span class="xpx-ico">${ic(s.icon)}</span><span class="xpx-t">${s.title.replace('Corporate Finance Advisory','Corporate Finance')}</span></button>`).join('')}</div><div class="xpx-panel" id="xp-panel" role="tabpanel" aria-live="polite">${xpPanel(0)}</div></div>`;
+function xpPanel(i){const s=SERVICES[i];return `<div class="xpx-media">${photo(SVC_PHOTO[s.slug],'xpx-ph')}<div class="xpx-cap"><span class="xpx-no">${String(i+1).padStart(2,'0')} / ${String(SERVICES.length).padStart(2,'0')}</span><b>${s.tag}</b></div></div>
+ <div class="xpx-body"><span class="eyebrow">Practice ${String(i+1).padStart(2,'0')}</span><h3>${s.title}</h3><p class="muted">${s.overview}</p>
+ <div class="xpx-sec"><span class="xp-h">What's included</span><ul class="xpx-ul">${s.features.slice(0,4).map(f=>`<li>${ic('checkc')}<span>${f[0]}</span></li>`).join('')}</ul></div>
+ <div class="xpx-sec"><span class="xp-h">What you gain</span><div class="xpx-chips">${s.benefits.map(b=>`<span>${b}</span>`).join('')}</div></div>
+ <div class="xpx-cta"><a class="btn btn-primary" href="#${s.slug}">Explore this service <span class="arrow-dot">${ic('arrow')}</span></a><a class="xpx-link" href="#${s.slug}">Request consultation ${ic('arrow')}</a></div></div>`}
 function bindExplorer(){
   const xp=document.getElementById('xp');if(!xp)return;
   const tabs=[...xp.querySelectorAll('[role=tab]')],panel=document.getElementById('xp-panel');
-  const sel=(i,focus)=>{tabs.forEach((t,k)=>{t.setAttribute('aria-selected',k===i);t.tabIndex=k===i?0:-1});panel.innerHTML=xpPanel(i);panel.classList.remove('swap');void panel.offsetWidth;panel.classList.add('swap');if(focus)tabs[i].focus()};
+  const sel=(i,focus)=>{tabs.forEach((t,k)=>{t.setAttribute('aria-selected',k===i);t.tabIndex=k===i?0:-1});panel.innerHTML=xpPanel(i);panel.classList.remove('swap');void panel.offsetWidth;panel.classList.add('swap');if(focus)tabs[i].focus();const bar=tabs[i].parentElement;if(bar.scrollWidth>bar.clientWidth)bar.scrollTo({left:tabs[i].offsetLeft-bar.clientWidth/2+tabs[i].clientWidth/2,behavior:'smooth'})};
   tabs.forEach((t,i)=>{t.onclick=()=>sel(i);t.onkeydown=e=>{const k={ArrowDown:1,ArrowRight:1,ArrowUp:-1,ArrowLeft:-1}[e.key];if(k){e.preventDefault();sel((i+k+tabs.length)%tabs.length,true)}}});
 }
 
