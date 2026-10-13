@@ -1,0 +1,4 @@
+{
+  "files.exclude": { "**/.vercel": true },
+  "editor.formatOnSave": false
+}
