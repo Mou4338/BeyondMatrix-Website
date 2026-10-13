@@ -609,7 +609,7 @@ function footer(){
   </div></footer>`;
 }
 const pageHead=(crumb,eyebrow,title,lead,art)=>`<section class="phead"><div class="wrap"><div class="phead-panel ${art?'has-art':''}"><div class="phead-copy"><nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span>/</span>${crumb}</nav><span class="eyebrow inv">${eyebrow}</span><h1>${title}</h1>${lead?`<p class="lead">${lead}</p>`:''}</div>${art?`<div class="phead-art">${art}</div>`:''}</div></div></section>`;
-const ctaBand=(h='One call can change your financial trajectory',p='Tell us where you are headed. A senior adviser reviews every inquiry and replies within one business day.')=>`<section class="pt0"><div class="wrap"><div class="cta2"><div class="cta2-ph">${photo('phone')}</div><div class="cta2-copy"><span class="eyebrow inv">Talk to an adviser</span><h2>${h}</h2><p>${p}</p><div class="hero-actions"><a class="btn btn-light" href="#contact-us">Schedule a consultation <span class="arrow-dot">${ic('arrow')}</span></a><a class="btn btn-ghost-inv" href="#toolkit">Try the toolkit</a></div></div></div></div></section>`;
+const ctaBand=(h='One call can change your financial trajectory',p='Tell us where you are headed. A senior adviser reviews every inquiry and replies within one business day.',ph='phone')=>`<section class="pt0"><div class="wrap"><div class="cta2"><div class="cta2-ph">${photo(ph)}</div><div class="cta2-copy"><span class="eyebrow inv">Talk to an adviser</span><h2>${h}</h2><p>${p}</p><div class="hero-actions"><a class="btn btn-light" href="#contact-us">Schedule a consultation <span class="arrow-dot">${ic('arrow')}</span></a><a class="btn btn-ghost-inv" href="#toolkit">Try the toolkit</a></div></div></div></div></section>`;
 const scard=(s,i)=>`<a class="scard" href="#${s.slug}"><span class="no">${String(i+1).padStart(2,'0')}</span><div class="scard-top"><h3 class="vt">${s.title.replace('Corporate Finance Advisory','Corporate Finance')}</h3>${photo(SVC_PHOTO[s.slug],'scard-ph')}</div><p>${s.short}</p><span class="more">Read More ${ic('arrow')}</span></a>`;
 const svcHead=(eyebrow,title,lead)=>`<div class="split-head"><div><span class="eyebrow">${eyebrow}</span><h2>${title}</h2></div><p class="muted">${lead}</p></div>`;
 const statStrip=()=>`<div class="statstrip">${SITE.stats.map(s=>`<div><span>${s.l}</span><b data-count="${s.v.replace(/[^\d]/g,'')}" data-pre="${s.v.replace(/\d/g,'')}" data-suf="${s.s}">${s.v}${s.s}</b></div>`).join('')}</div>`;
@@ -669,7 +669,7 @@ function servicePage(s){
   <div style="display:grid;gap:44px;min-width:0">
     <div style="display:grid;gap:16px"><span class="eyebrow">Overview</span><h2>${s.title} at Beyondmatrix</h2><p class="lead">${s.overview}</p><div class="benefit-row">${s.benefits.map(b=>`<span class="pill">${ic('check')} ${b}</span>`).join('')}</div></div>
     <div style="display:grid;gap:18px"><span class="eyebrow">What's included</span><div class="feat-grid">${s.features.map(([t,d,i],n)=>`<div class="feat"><span class="no">${String(n+1).padStart(2,'0')}</span><span class="ico-ring">${ic(i)}</span><h3>${t}</h3><p>${d}</p></div>`).join('')}</div></div>
-    <div class="photo-wide short">${photo(SVC_PHOTO[s.slug]==='collab'?'meeting':'collab')}</div>
+    <div class="photo-wide short">${photo(SVC_WIDE[s.slug])}</div>
     <div style="display:grid;gap:14px"><span class="eyebrow">Explore related services</span><div class="benefit-row">${SERVICES.filter(x=>x.slug!==s.slug).map(x=>`<a class="pill link" href="#${x.slug}">${ic(x.icon)} ${x.title}</a>`).join('')}</div></div>
   </div>
   <aside class="sticky-form" id="consult">${formHTML(s.slug,s.fields,`Request ${/^[AEIOU]/.test(s.title)?'an':'a'} ${s.title} consultation`,'A senior adviser replies within one business day.',s.note)}</aside>
@@ -1137,13 +1137,13 @@ ${glanceHTML()}
   <div class="center-cta"><a class="btn btn-ghost" href="#services">View all services ${ic('arrow')}</a></div>
 </div></section>
 
-${darkBand('Why clients choose us','Four commitments behind <em>every mandate</em>','Promoters work with us because we stay with the mandate from first call to closing, and tell them plainly what the numbers say.',COMMIT,'collab')}
+${darkBand('Why clients choose us','Four commitments behind <em>every mandate</em>','Promoters work with us because we stay with the mandate from first call to closing, and tell them plainly what the numbers say.',COMMIT,'teamwork')}
 
 <section class="sec-results"><div class="wrap">${secC('Track record','Results that <em>speak for us</em>','')}<div class="results">
   <div class="res-photo">${photo('results')}<div class="res-panel"><span class="eyebrow inv">Track record</span><h2>Where results speak <em>louder than words</em></h2><p>Every mandate is measured by what the client walks away with: the capital raised, the listing achieved, the deal closed.</p></div></div>
   <div class="res-side">
     <div class="res-tile white"><b>₹500<small>Cr+</small></b><span>capital raised for clients across equity, debt and hybrid structures</span><div class="res-bars" aria-hidden="true">${[30,42,38,56,64,80].map(h=>`<i style="height:${h}%"></i>`).join('')}</div></div>
-    <div class="res-tile blue">${photo('phone','res-ph')}<div><b>One call</b><span>can change your financial trajectory</span><a href="#contact-us" class="btn btn-light btn-sm">Speak to us ${ic('arrow')}</a></div></div>
+    <div class="res-tile blue">${photo('advisor','res-ph')}<div><b>One call</b><span>can change your financial trajectory</span><a href="#contact-us" class="btn btn-light btn-sm">Speak to us ${ic('arrow')}</a></div></div>
   </div>
 </div></div></section>
 
@@ -1157,10 +1157,10 @@ ${faqSplit(FAQ_HOME)}
 ${ctaBand()}`;
 
 /* ---------- ABOUT ---------- */
-P['about-us']=()=>`${pageHead('<span>About Us</span>','About Beyondmatrix','Your long-term partner in <em>corporate finance</em>','Beyondmatrix Capital Private Limited helps growing Indian businesses access the right capital and make better financial decisions, with integrity at the centre of every mandate.',photo('meeting'))}
+P['about-us']=()=>`${pageHead('<span>About Us</span>','About Beyondmatrix','Your long-term partner in <em>corporate finance</em>','Beyondmatrix Capital Private Limited helps growing Indian businesses access the right capital and make better financial decisions, with integrity at the centre of every mandate.',photo('office'))}
 ${glanceHTML()}
 <section><div class="wrap ab3">
-  <div class="ab3-media">${photo('analyst','ab3-main')}<div class="ab3-badge"><b>6</b><span>Integrated practice areas</span></div><div class="ab3-chip">${ic('pin')}<span>Andheri East, Mumbai</span></div></div>
+  <div class="ab3-media">${photo('boardroom','ab3-main')}<div class="ab3-badge"><b>6</b><span>Integrated practice areas</span></div><div class="ab3-chip">${ic('pin')}<span>Andheri East, Mumbai</span></div></div>
   <div class="ab3-copy"><span class="eyebrow">Who we are</span><h2>Investment banking depth with an <em>operator's view</em> of finance</h2>
   <p class="muted">We work with promoters, founders and finance teams on the decisions that shape a company: raising equity, borrowing well, preparing to list, buying or selling a business, and running finance with discipline.</p>
   <p class="muted">Our team brings together experience across capital markets, credit, valuation and CFO functions, so advice in one area is always informed by the others.</p>
@@ -1173,10 +1173,10 @@ ${glanceHTML()}
     <div class="mv blue"><span class="ico-ring">${ic('globe')}</span><span class="eyebrow inv">Vision</span><h3>To be the trusted financial partner for India's growing businesses.</h3><p>Long-term value creation, earned through integrity and results.</p></div>
   </div>
 </div></section>
-${darkBand('Core values','What drives us <em>forward</em>','Four principles that shape how we take on, run and close every mandate.',VALUES,'present')}
+${darkBand('Core values','What drives us <em>forward</em>','Four principles that shape how we take on, run and close every mandate.',VALUES,'team2')}
 ${processHTML(false)}
 <section class="alt"><div class="wrap">${svcHead('Where we can help','Six practices, <em>one team</em>','Choose a practice to see what is included.')}${explorerHTML()}</div></section>
-${ctaBand('Let\'s talk about your growth plans')}`;
+${ctaBand('Let\'s talk about your growth plans',undefined,'handshake2')}`;
 
 /* ---------- SERVICES ---------- */
 P.services=()=>`${pageHead('<span>Services</span>','Financial advisory services','Find the right financial solution for <em>your business</em>','Six integrated practices covering capital raising, listing, lending, transactions and finance leadership.',photo('skyline'))}
@@ -1184,7 +1184,7 @@ ${glanceHTML()}
 <section><div class="wrap">${svcHead('Our practices','What we are offering to our <em>potential clients</em>','Each practice is led by specialists and connected to the others, so a fundraise, a loan and a listing can be planned together.')}<div class="sgrid">${SERVICES.map(scard).join('')}</div></div></section>
 ${faqSplit(NEEDS,'Start from your <em>business need</em>','Not sure which practice fits? Pick the question closest to your situation.')}
 ${processHTML(false)}
-${ctaBand()}`;
+${ctaBand(undefined,undefined,'consult')}`;
 
 /* ---------- SERVICE DETAIL ---------- */
 function servicePage(s){
@@ -1199,13 +1199,13 @@ function servicePage(s){
     <div id="sv-inc" class="svc-block"><span class="eyebrow">What's included</span><div class="feat-grid">${s.features.map(([t,d,i],n)=>`<div class="feat"><span class="no">${String(n+1).padStart(2,'0')}</span><span class="ico-ring">${ic(i)}</span><h3>${t}</h3><p>${d}</p></div>`).join('')}</div></div>
     <div id="sv-how" class="svc-block"><span class="eyebrow">How we deliver</span><h2>Four steps, <em>one accountable team</em></h2>
       <div class="mini-steps">${[['Assess','Understand the business, numbers and goal.'],['Structure','Design the route, terms and timeline.'],['Execute','Prepare documents, run outreach, negotiate.'],['Support','Close, comply and keep improving.']].map(([t,d],i)=>`<div class="ms"><span>${i+1}</span><b>${t}</b><p>${d}</p></div>`).join('')}</div>
-      <div class="photo-wide short">${photo(SVC_PHOTO[s.slug]==='collab'?'meeting':'collab')}</div></div>
+      <div class="photo-wide short">${photo(SVC_WIDE[s.slug])}</div></div>
     <div id="sv-faq" class="svc-block"><span class="eyebrow">Common questions</span>${faq.map(([q,a],i)=>`<div class="acc"><button aria-expanded="false" aria-controls="sacc${i}" id="saccb${i}"><span class="qt">${q}</span><span class="pm">+</span></button><div class="panel" id="sacc${i}" role="region" aria-labelledby="saccb${i}" hidden><p>${a}</p></div></div>`).join('')}</div>
     <div class="svc-block"><span class="eyebrow">Explore related services</span><div class="rel-grid">${SERVICES.filter(x=>x.slug!==s.slug).slice(0,3).map(x=>`<a class="rel" href="#${x.slug}">${photo(SVC_PHOTO[x.slug],'rel-ph')}<div><b>${x.title}</b><small>${x.tag}</small><span class="more">Read more ${ic('arrow')}</span></div></a>`).join('')}</div></div>
   </div>
   <aside class="sticky-form" id="consult">${formHTML(s.slug,s.fields,`Request ${/^[AEIOU]/.test(s.title)?'an':'a'} ${s.title} consultation`,'A senior adviser replies within one business day.',s.note)}</aside>
 </div></section>
-${ctaBand(`Questions about ${s.title.toLowerCase()}?`,'Write to us, or use the toolkit to run a few numbers first.')}`;
+${ctaBand(`Questions about ${s.title.toLowerCase()}?`,'Write to us, or use the toolkit to run a few numbers first.','phone2')}`;
 }
 
 function bindSubnav(){
@@ -1241,5 +1241,218 @@ apiSubmit=async function(slug,fields,raw,key){
   }
   return __localSubmit(slug,fields,raw,key);
 };
+
+/* ============ v6: unique photography, reliable Services menu, per-page banner art ============ */
+Object.assign(PHOTO_SRC,{
+  strategy:[3760093,'Adviser presenting a financial strategy on a tablet'],
+  results:[7651804,'Advisory team reviewing results in a meeting'],
+  phone:[6699303,'Adviser in a suit speaking with a client by phone'],
+  teamwork:[7793927,'Advisers discussing a mandate in a conference room'],
+  advisor:[37148339,'Senior adviser in a suit'],
+  office:[7433849,'Senior partners at a conference table'],
+  boardroom:[8284732,'Board meeting with company leadership'],
+  team2:[11045732,'Adviser presenting to a client team'],
+  handshake2:[7256363,'Businessmen shaking hands after a meeting'],
+  consult:[8112159,'Adviser consulting with a client in the office'],
+  phone2:[7580851,'Adviser taking a client call'],
+  w_ipo:[8353793,'Analyst reviewing stock market data on screen'],
+  w_fund:[1181406,'Founders presenting to investors in a conference room'],
+  w_debt:[6693646,'Loan paperwork, laptop and documents on a desk'],
+  w_cfo:[7109316,'Laptop showing financial graphs'],
+  w_ma:[5833333,'Two executives agreeing a business deal'],
+  w_cf:[7172825,'Financial documents and planning notes beside a laptop'],
+});
+const SVC_WIDE={'ipo-advisory':'w_ipo','fund-raising':'w_fund','debt-advisory':'w_debt','virtual-cfo-services':'w_cfo','mergers-acquisitions':'w_ma','corporate-finance-advisory':'w_cf'};
+const PHEAD_ART={'about-us':'skyline','services':'chart','ipo-advisory':'chart','fund-raising':'network','debt-advisory':'pillars','virtual-cfo-services':'dashboard','mergers-acquisitions':'merge','corporate-finance-advisory':'dashboard','toolkit':'dashboard'};
+
+function bindNav(){
+  const dd=document.getElementById('dd'),b=document.getElementById('ddb'),m=document.getElementById('ddm');
+  if(!dd||!b||!m)return;
+  const hov=matchMedia('(hover:hover) and (pointer:fine)').matches;
+  let timer=null,hoverAt=0;
+  const set=v=>{m.hidden=!v;dd.classList.toggle('open',v);b.setAttribute('aria-expanded',String(v))};
+  dd.onmouseenter=()=>{if(!hov)return;clearTimeout(timer);if(m.hidden){set(true);hoverAt=Date.now()}};
+  dd.onmouseleave=()=>{if(!hov)return;clearTimeout(timer);timer=setTimeout(()=>set(false),280)};
+  b.onclick=e=>{e.preventDefault();e.stopPropagation();if(!m.hidden&&Date.now()-hoverAt<700)return;set(m.hidden)};
+  b.onkeydown=e=>{if(e.key==='ArrowDown'){e.preventDefault();set(true);m.querySelector('a')?.focus()}};
+  dd.onkeydown=e=>{if(e.key==='Escape'){set(false);b.focus()}};
+  m.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>set(false)));
+  if(!window.__bmNavDoc){window.__bmNavDoc=true;
+    document.addEventListener('click',e=>{const d=document.getElementById('dd'),mm=document.getElementById('ddm');
+      if(d&&mm&&!mm.hidden&&!d.contains(e.target)){mm.hidden=true;d.classList.remove('open');document.getElementById('ddb')?.setAttribute('aria-expanded','false')}});}
+}
+function bindArt(r){const p=document.querySelector('.phead-panel');if(p&&PHEAD_ART[r])p.setAttribute('data-art',PHEAD_ART[r])}
+const __bind2=bind;
+bind=function(r){__bind2(r);bindNav();bindArt(r)};
+
+/* ============ v7: richer inner pages using content from the previous beyondmatrix.in, plus interactive tools ============ */
+const TURNOVER=['Less than ₹1 Cr','₹1 – 5 Cr','₹5 – 20 Cr','₹20 Cr+'];
+const CIBIL=['Below 600','600 – 649','650+','700+','750+','800+','Don\'t know'];
+(function enrich(){
+  const by=Object.fromEntries(SERVICES.map(s=>[s.slug,s]));
+  const set=(slug,o)=>Object.assign(by[slug],o);
+  set('ipo-advisory',{tagline:'Expert guidance for SME & Mainboard IPO listings, from readiness assessment to listing day and beyond.',
+    overview:'We offer end-to-end IPO advisory for businesses becoming public companies, to unlock long-term equity capital and build credibility in the capital markets. We assess readiness, strengthen corporate governance and coordinate merchant bankers, legal counsel, auditors and the stock exchanges (BSE/NSE).',
+    features:[['IPO readiness assessment','A diagnostic of financial health, regulatory compliance, corporate structure and equity story, the starting point for any listing.','target'],['SME IPO advisory','End-to-end guidance for high-growth SMEs listing on BSE SME or NSE Emerge.','rocket'],['Mainboard IPO advisory','Transaction management and execution for larger companies listing on the main boards.','bell'],['Financial & compliance due diligence','Pre-IPO financial reviews, legal checks and disclosure preparation.','doc'],['Corporate governance framework','Independent board committees and internal financial control (IFC) mechanisms.','shield'],['Restated financial statements','Helping finance teams and auditors recast historical accounts to exchange reporting norms.','layers'],['Regulatory & exchange compliance','Statutory filings and approvals with SEBI, the ROC and the exchanges.','globe'],['Pre-IPO capital planning','Structuring and placing pre-IPO rounds to set valuation benchmarks and attract institutions.','coin']],
+    keyBenefits:[['Thorough preparation','Builds investor trust and smoother regulatory clearances.'],['Ecosystem management','One coordination point for merchant bankers, legal teams, registrars and auditors.'],['Value maximisation','Timing, pricing and narrative strategy aimed at the best public-market valuation.']],
+    fields:[...CORE,{n:'turnover',l:'Tentative turnover / annual revenue',t:'select',req:1,o:TURNOVER}],tool:'Compare listing routes'});
+  set('fund-raising',{tagline:'End-to-end equity & hybrid capital solutions connecting high-growth companies with institutional, venture and strategic investors.',
+    overview:'Capital is the fuel for expansion. We help businesses raise equity, debt and hybrid capital for growth plans, acquisitions, technology and working capital, working alongside promoters to build the equity story, prepare investor-ready documents, find aligned capital partners and negotiate terms from pitch to closing.',
+    features:[['Equity fund raising','Structured raises for growth-stage and mid-market companies expanding without adding debt.','users'],['Private equity & venture capital','Introductions to PE firms and VC funds for Series A through late-stage rounds.','handshake'],['Angel investments','Early-stage syndication, pitch decks and access to HNI networks.','spark'],['Growth capital','Funding for geographic expansion, R&D and new product lines.','trend'],['Strategic investments','Corporate investors, industry partners and JV allies who bring synergies and market access.','target'],['Convertible instruments (CCDs, CCPS)','Bridging valuation gaps while protecting founder ownership.','layers'],['Debt & hybrid funding','Mezzanine debt and revenue-based financing to limit dilution.','coin']],
+    keyBenefits:[['Targeted investor access','PE funds, VCs, family offices and HNIs aligned to your stage and sector.'],['Valuation & terms optimisation','Protecting promoter equity while offering investors attractive returns.'],['Turnkey support','Information memoranda, financial models and deal negotiation, end to end.']],
+    fields:[...CORE,{n:'company',l:'Company name',t:'text'},{n:'turnover',l:'Tentative turnover / annual revenue',t:'select',req:1,o:TURNOVER},{n:'amount',l:'Funding requirement',t:'select',o:['Up to ₹5 Cr','₹5 – 25 Cr','₹25 – 100 Cr','Above ₹100 Cr']},{n:'message',l:'What will the capital be used for?',t:'textarea',max:1000}],tool:'Dilution calculator & route finder'});
+  set('debt-advisory',{tagline:'Customised debt & financing solutions: the right capital, on the best terms, matched to your operating and strategic needs.',
+    overview:'Getting the right financing on good terms is essential for sustainable growth. Through our network of banks, NBFCs, financial institutions and alternative lenders, we run end-to-end debt syndication: assessing needs, preparing documentation, negotiating with lenders and supporting you to disbursement.',
+    features:[['Working capital finance','Fund-based (cash credit, overdraft) and non-fund-based (LC, bank guarantee) facilities for day-to-day liquidity.','coin'],['Term loans','Medium to long-term facilities for expansion, acquisitions and growth.','bank'],['Project finance','Greenfield and brownfield projects: feasibility, Detailed Project Reports (DPRs) and bank syndication.','target'],['Machinery & equipment loans','Asset-backed financing to upgrade machinery without draining working capital.','gauge'],['Loan against property (LAP)','Turning property into business liquidity at competitive rates.','pin'],['Structured debt solutions','Mezzanine, growth capital and special-situation packages for complex cases.','spark'],['Refinancing & restructuring','Replacing costly debt, extending maturities and realigning repayments.','trend']],
+    keyBenefits:[['Institutional network','Direct relationships with banks, NBFCs and alternative lenders.'],['Optimised terms','Competitive rates, flexible covenants and structured repayment schedules.'],['Seamless execution','Lender documentation, credit assessment and fast-track sanction handled for you.']],
+    fields:[...CORE,{n:'applicant',l:'What do you do?',t:'radio',req:1,o:['Business','Job']},{n:'loanType',l:'What type of loan do you need?',t:'radio',req:1,o:['Secured','Unsecured']},{n:'cibil',l:'What is your CIBIL score? (optional)',t:'select',o:CIBIL},{n:'message',l:'Additional information',t:'textarea',max:1000,ph:'Loan amount, purpose, existing facilities…'}],tool:'Facility matcher & EMI estimator'});
+  set('virtual-cfo-services',{tagline:'On-demand executive financial leadership: senior finance expertise, cash-flow management and MIS reporting without a full-time CFO.',
+    overview:'A flexible, cost-effective option for growing businesses that need strategic financial leadership. We work with promoters and leadership teams to improve financial visibility, strengthen internal controls, optimise working capital, raise profitability and support data-driven decisions.',
+    features:[['MIS & business dashboards','Management reporting, KPI tracking and executive dashboards.','grid'],['Budgeting & forecasting','Annual operating plans, zero-based budgeting, revenue models and variance monitoring.','calc'],['Cash-flow management','Rolling projections, runway tracking, working capital and liquidity planning.','coin'],['Financial planning & analysis','Unit economics, product and channel profitability, pricing models.','gauge'],['Investor & lender reporting','Quarterly investor updates, board decks and covenant compliance reports.','doc'],['Internal controls & processes','Financial SOPs, approval matrices and audit trails.','shield'],['Compliance monitoring','Ongoing oversight of GST, Income Tax, TDS and governance obligations.','checkc'],['Strategic finance support','A thought partner on capex, cost reduction, expansion and pivots.','compass']],
+    keyBenefits:[['Cost efficiency','Senior CFO experience at a fraction of a full-time salary.'],['Actionable visibility','Clear insight into business metrics and profit drivers.'],['Scalable engagement','Scope that grows as your business does.']],tool:'Virtual vs full-time CFO & health checklist'});
+  set('mergers-acquisitions',{tagline:'Strategic M&A advisory for deal execution and value creation: buy-side, sell-side, valuation and deal structuring.',
+    overview:'Acquisitions, mergers and divestitures help companies enter markets, scale operations and create enterprise value. We advise business owners, strategic acquirers and corporate investors across the whole M&A lifecycle, from deal origination to closing, keeping each deal aligned with strategy while maximising value and reducing execution risk.',
+    features:[['Buy-side advisory','Target identification, synergy evaluation, outreach and valuation models.','target'],['Sell-side advisory','Sale readiness, confidential teasers, buyer matching and managed bidding.','handshake'],['Business valuation','Independent fair-value opinions for negotiations, boards and filings.','calc'],['Financial due diligence','Quality of earnings, balance sheet verification and hidden liabilities.','doc'],['Deal structuring & negotiation','Tax-efficient structures, term sheets, SPA and SHA support.','layers'],['Partnerships & joint ventures','Domestic and cross-border JVs, profit-sharing and alliance agreements.','users'],['Business succession planning','Ownership transitions, management buyouts and recapitalisations.','compass'],['Transaction execution','Closing conditions, regulatory approvals and definitive agreements.','checkc']],
+    keyBenefits:[['Strategic alignment','Precise target matching for real operating and revenue synergies.'],['Risk mitigation','Diligence and structuring that protect you from transaction risk.'],['Confidentiality & integrity','Discretion throughout buyer and seller interactions.']],tool:'Valuation range & deal lifecycle'});
+  set('corporate-finance-advisory',{tagline:'Strategic financial advisory for sustainable growth: better capital allocation, stronger performance, long-term value.',
+    overview:'We help promoters and leadership teams make financial decisions aimed at sustainable growth and higher shareholder value, at every stage from planning and capital allocation to restructuring and expansion, assessing opportunities, refining financial strategy and preparing the organisation to scale.',
+    features:[['Financial strategy & planning','Practical roadmaps that tie budgets to growth goals and adapt to markets.','compass'],['Business valuation','Independent value assessment for deals, compliance, disputes and pitches.','calc'],['Financial modelling & forecasting','Scenario models that test strategies and project cash flows before capital is committed.','gauge'],['Capital structure optimisation','The debt-equity mix that lowers WACC with safe leverage and liquidity.','layers'],['Growth & expansion advisory','Feasibility of new markets, product lines and capacity.','trend'],['Strategic business reviews','Health checks of unit economics, margins and working capital cycles.','target'],['Restructuring & turnaround','Debt renegotiation, cost reduction and restoring cash flow.','shield']],
+    keyBenefits:[['Informed decision making','Clearer insight from in-depth financial analysis.'],['Capital efficiency','Better balance sheet management and a lower cost of capital.'],['Investor & lender readiness','A solid financial foundation for future fundraising.']],tool:'Business health check'});
+})();
+
+/* ---------- shared bits ---------- */
+const v7Range=(id,label,unit,min,max,step,val)=>`<div class="range"><div class="top"><label for="${id}">${label}</label><b id="${id}v"></b></div><input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}" data-unit="${unit}"></div>`;
+const v7Lbl=el=>{const u=el.dataset.unit,v=+el.value;return u==='₹ Cr'?'₹'+v.toLocaleString('en-IN')+' Cr':u==='%'?v+'%':u==='x'?v+'x':u==='days'?v+' days':u==='yrs'?v+' yrs':String(v)};
+const crf=v=>'₹'+(Math.abs(v)>=100?Math.round(v).toLocaleString('en-IN'):v.toFixed(1))+' Cr';
+const flag=(lvl,txt)=>`<span class="flag f-${lvl}">${lvl==='good'?ic('checkc'):ic('alert')}${txt}</span>`;
+const stepper=(id,steps)=>`<div class="vstep" id="${id}"><div class="vstep-rail" role="tablist">${steps.map((s,i)=>`<button role="tab" aria-selected="${i===0}" data-i="${i}"><span>${i+1}</span>${s[0]}</button>`).join('')}</div><div class="vstep-panel" aria-live="polite"><b>${steps[0][0]}</b><p>${steps[0][1]}</p></div></div>`;
+function bindStepper(id,steps){const r=document.getElementById(id);if(!r)return;const bs=[...r.querySelectorAll('[role=tab]')],p=r.querySelector('.vstep-panel');
+  bs.forEach((b,i)=>b.onclick=()=>{bs.forEach((x,k)=>{x.setAttribute('aria-selected',k===i);x.classList.toggle('done',k<i)});p.innerHTML=`<b>${steps[i][0]}</b><p>${steps[i][1]}</p>`})}
+
+/* ---------- per-service tools ---------- */
+const IPO_STEPS=[['Readiness assessment','Diagnose financials, compliance, structure and equity story; agree a realistic listing plan.'],['Restatement & governance','Restated financials, independent directors, board committees and internal financial controls.'],['Team & documentation','Appoint merchant banker, legal counsel and registrar; prepare the draft offer document.'],['Regulatory approvals','Filings and observations with SEBI, the exchange and the ROC.'],['Marketing & pricing','Investor meetings, anchor book and price band.'],['Listing & after-care','Listing day, then ongoing disclosure and investor relations.']];
+const MA_STEPS=[['Origination','Define strategy, screen targets or buyers, approach confidentially.'],['Valuation','Independent valuation and synergy case to set the negotiating range.'],['Due diligence','Quality of earnings, legal and tax review, liabilities and risks.'],['Structuring & negotiation','Deal structure, consideration and key terms in a term sheet.'],['Definitive agreements','SPA, SHA and related documents drafted and negotiated.'],['Approvals & closing','Regulatory approvals, conditions precedent and completion.'],['Integration','Post-deal integration plan so the value case is delivered.']];
+const TOOLS={
+ 'ipo-advisory':()=>`<div class="cmp"><table><thead><tr><th></th><th>SME platform</th><th>Mainboard</th></tr></thead><tbody>${[['Best suited for','Growing SMEs building a public-market track record','Larger, established companies seeking deep liquidity'],['Exchange platform','BSE SME / NSE Emerge','BSE / NSE main board'],['Investor base','HNIs, retail and select institutions','Broad institutional, HNI and retail participation'],['Compliance load','Scaled to SME listing norms','Full listed-company disclosure and governance'],['Growth path','Can migrate to the main board once eligible','Access to the deepest public capital pool']].map(r=>`<tr><th>${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</tbody></table></div>
+  <p class="disclaim">Indicative comparison. Eligibility depends on SEBI and exchange criteria at the time of filing.</p>
+  <span class="xp-h">The IPO journey: select a stage</span>${stepper('ipoSteps',IPO_STEPS)}
+  <a class="xpx-link" href="#toolkit">Check your IPO readiness score ${ic('arrow')}</a>`,
+ 'fund-raising':()=>`<div class="tool2"><div class="st-controls">${v7Range('dPre','Pre-money valuation','₹ Cr',5,1000,5,100)}${v7Range('dRaise','Amount to raise','₹ Cr',1,300,1,25)}${v7Range('dFnd','Founders\' current holding','%',10,100,1,80)}</div>
+  <div class="st-out"><div class="kpi-row"><div class="kpi2 accent"><span>Post-money valuation</span><b id="dPost"></b></div><div class="kpi2"><span>New investor stake</span><b id="dInv"></b></div><div class="kpi2"><span>Founders after round</span><b id="dAft"></b></div></div>
+  <div class="mixbar" id="dBar"></div><p class="insight" id="dIns"></p></div></div>
+  <span class="xp-h">Which route fits your stage?</span><div class="seg" id="frStage">${[['early','Early stage'],['growth','Growth stage'],['mid','Mid-market'],['pre','Pre-IPO']].map(([v,l],i)=>`<label><input type="radio" name="frs" value="${v}" ${i===0?'checked':''}> ${l}</label>`).join('')}</div><div class="finder-res" id="frRes"></div>`,
+ 'debt-advisory':()=>`<span class="xp-h">What do you need the money for?</span><div class="seg" id="dmNeed">${[['day','Day-to-day operations'],['trade','Imports & trade'],['capex','Expansion / capex'],['machine','New machinery'],['property','Unlock property value'],['refi','Cut existing loan cost']].map(([v,l],i)=>`<label><input type="radio" name="dmn" value="${v}" ${i===0?'checked':''}> ${l}</label>`).join('')}</div><div class="finder-res" id="dmRes"></div>
+  <div class="tool2"><div class="st-controls">${v7Range('eA','Loan amount','₹ Cr',0.5,100,0.5,5)}${v7Range('eR2','Interest rate (p.a.)','%',7,18,0.25,10.5)}${v7Range('eT','Tenure','yrs',1,15,1,5)}</div>
+  <div class="st-out"><div class="kpi-row"><div class="kpi2 accent"><span>Monthly EMI</span><b id="eM"></b></div><div class="kpi2"><span>Total interest</span><b id="eI"></b></div><div class="kpi2"><span>Every 1% lower rate saves</span><b id="eS"></b></div></div><p class="disclaim">Indicative estimate. Actual rates and eligibility depend on the lender's assessment.</p></div></div>`,
+ 'virtual-cfo-services':()=>`<div class="cmp"><table><thead><tr><th></th><th>Full-time CFO</th><th>Beyondmatrix Virtual CFO</th></tr></thead><tbody>${[['Cost','Full salary, benefits and hiring cost','A fraction of the cost, scoped to your needs'],['Commitment','Long-term employment','Flexible engagement that scales up or down'],['Expertise','One person\'s experience','A team across reporting, FP&A, compliance and capital'],['Time to start','Months to hire and onboard','Weeks to set up reporting and controls'],['Best for','Large, complex organisations','Growing businesses that need senior finance leadership now']].map(r=>`<tr><th>${r[0]}</th><td>${r[1]}</td><td><b>${r[2]}</b></td></tr>`).join('')}</tbody></table></div>
+  <span class="xp-h">Finance health checklist: tick what you already have</span><div class="chk" id="cfoChk">${['Monthly MIS within 10 days of month-end','Annual budget with monthly variance review','Rolling 13-week cash-flow forecast','Product / channel profitability analysis','Documented approval matrix and SOPs','GST, TDS and ROC filings tracked on a calendar','Board / investor pack every quarter','Clear KPIs reviewed by leadership'].map((t,i)=>`<label><input type="checkbox" value="${i}"> ${t}</label>`).join('')}</div>
+  <div><div style="display:flex;justify-content:space-between;font-size:.9rem"><b>Finance function score</b><b id="cfoScore" class="num">0 / 8</b></div><div class="meter" style="margin-top:6px"><i id="cfoBar" style="width:0"></i></div></div><div class="finder-res" id="cfoRes"></div>`,
+ 'mergers-acquisitions':()=>`<div class="tool2"><div class="st-controls">${v7Range('vE','Annual EBITDA','₹ Cr',1,500,1,20)}${v7Range('vL','Low multiple (EV/EBITDA)','x',3,25,0.5,7)}${v7Range('vH','High multiple (EV/EBITDA)','x',4,30,0.5,11)}${v7Range('vD','Net debt (debt minus cash)','₹ Cr',-100,500,1,15)}</div>
+  <div class="st-out"><div class="kpi-row"><div class="kpi2 accent"><span>Enterprise value range</span><b id="vEV"></b></div><div class="kpi2"><span>Equity value range</span><b id="vEq"></b></div><div class="kpi2"><span>Mid-point equity</span><b id="vMid"></b></div></div><div class="vrange" id="vBar"></div><p class="disclaim">Multiples-based indication only. A formal valuation also weighs DCF, comparable deals, synergies and diligence findings.</p></div></div>
+  <span class="xp-h">The deal lifecycle: select a stage</span>${stepper('maSteps',MA_STEPS)}`,
+ 'corporate-finance-advisory':()=>`<div class="tool2"><div class="st-controls">${v7Range('hR','Annual revenue','₹ Cr',5,1000,5,80)}${v7Range('hE','EBITDA','₹ Cr',-20,300,1,10)}${v7Range('hD','Total debt','₹ Cr',0,500,1,25)}${v7Range('hC','Cash & equivalents','₹ Cr',0,200,1,5)}${v7Range('hDr','Debtor days','days',0,180,5,75)}${v7Range('hIn','Inventory days','days',0,180,5,60)}${v7Range('hCr','Creditor days','days',0,180,5,45)}</div>
+  <div class="st-out"><div class="hc" id="hcOut"></div><p class="disclaim">Indicative thresholds for discussion. Healthy levels vary by sector.</p></div></div>`};
+const BIND={
+ 'ipo-advisory':()=>bindStepper('ipoSteps',IPO_STEPS),
+ 'fund-raising':()=>{const ids=['dPre','dRaise','dFnd'];const f=()=>{ids.forEach(i=>document.getElementById(i+'v').textContent=v7Lbl(document.getElementById(i)));
+   const pre=+dPre.value,r=+dRaise.value,fd=+dFnd.value/100,post=pre+r,inv=r/post,fa=fd*(1-inv),oth=(1-fd)*(1-inv);
+   dPost.textContent=crf(post);dInv.textContent=(inv*100).toFixed(1)+'%';dAft.textContent=(fa*100).toFixed(1)+'%';
+   dBar.innerHTML=`<i class="m-eq" style="width:${fa*100}%"><span>Founders ${(fa*100).toFixed(0)}%</span></i>${oth>0.001?`<i style="width:${oth*100}%;background:#9FB2FF;color:#0A1538"><span>Others ${(oth*100).toFixed(0)}%</span></i>`:''}<i class="m-d" style="width:${inv*100}%"><span>New ${(inv*100).toFixed(0)}%</span></i>`;
+   dIns.innerHTML=`${ic('spark')}<span>${inv>0.3?'This round gives away more than 30%. Consider a smaller round, a higher valuation or convertible instruments (CCDs/CCPS) to bridge the gap.':'Dilution looks moderate. Raising at a higher valuation by '+Math.round(pre*0.2)+' Cr would keep about '+((fd*(1-r/(pre*1.2+r)))*100-fa*100).toFixed(1)+' more points with founders.'}</span>`};
+   ids.forEach(i=>document.getElementById(i).addEventListener('input',f));f();
+   const R={early:['Angel investors & early-stage VC','Pitch deck, HNI syndication and seed or Series A terms.'],growth:['Venture capital & growth capital','Series A to C rounds, venture debt or CCPS to support scaling.'],mid:['Private equity & strategic investors','Growth equity, minority stakes, mezzanine or hybrid structures.'],pre:['Pre-IPO placement','Anchor-style rounds that set a valuation benchmark ahead of listing.']};
+   const g=()=>{const v=document.querySelector('[name=frs]:checked').value;frRes.innerHTML=`<span class="eyebrow">Suggested route</span><b style="font-family:var(--f-display);font-size:1.1rem">${R[v][0]}</b><span>${R[v][1]}</span>`};frStage.addEventListener('change',g);g()},
+ 'debt-advisory':()=>{const M={day:['Working capital: cash credit / overdraft','Revolving limits sized to your operating cycle, usually secured on stock and receivables.'],trade:['Letters of credit & bank guarantees','Non-fund-based limits that support imports and contracts without tying up cash.'],capex:['Term loan or project finance','Medium to long-term funding; larger projects need a Detailed Project Report (DPR).'],machine:['Machinery & equipment loan','Asset-backed funding secured on the equipment you buy.'],property:['Loan against property (LAP)','Longer tenors and lower rates, secured on commercial or residential property.'],refi:['Refinancing / balance transfer','Move expensive debt to a lower rate, extend maturity or realign repayments.']};
+   const g=()=>{const v=document.querySelector('[name=dmn]:checked').value;dmRes.innerHTML=`<span class="eyebrow">Best-fit facility</span><b style="font-family:var(--f-display);font-size:1.1rem">${M[v][0]}</b><span>${M[v][1]}</span>`};dmNeed.addEventListener('change',g);g();
+   const ids=['eA','eR2','eT'];const emi=(p,r,n)=>p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+   const f=()=>{ids.forEach(i=>document.getElementById(i+'v').textContent=v7Lbl(document.getElementById(i)));const p=+eA.value*1e7,r=+eR2.value/1200,n=+eT.value*12,e=emi(p,r,n),e2=emi(p,(+eR2.value-1)/1200,n);
+   eM.textContent='₹'+Math.round(e).toLocaleString('en-IN');eI.textContent=crf((e*n-p)/1e7);eS.textContent=crf((e-e2)*n/1e7)};ids.forEach(i=>document.getElementById(i).addEventListener('input',f));f()},
+ 'virtual-cfo-services':()=>{const box=document.getElementById('cfoChk');const f=()=>{const n=box.querySelectorAll('input:checked').length;cfoScore.textContent=n+' / 8';cfoBar.style.width=(n/8*100)+'%';
+   cfoRes.innerHTML=n>=7?`<b>Strong finance function.</b><span>A Virtual CFO can focus on strategy, investor reporting and capital raising.</span>`:n>=4?`<b>Good base, clear gaps.</b><span>Typical first 90 days: close the gaps above, starting with cash-flow forecasting and MIS timeliness.</span>`:`<b>Early-stage finance function.</b><span>A Virtual CFO would start with MIS, budgeting and a cash-flow forecast, the foundations lenders and investors expect.</span><a class="btn btn-primary btn-sm" style="justify-self:start" href="#consult" data-jump="consult">Request a consultation</a>`;
+   document.querySelectorAll('#cfoRes [data-jump]').forEach(a=>a.onclick=e=>{e.preventDefault();document.getElementById('consult').scrollIntoView({behavior:'smooth'})})};box.addEventListener('change',f);f()},
+ 'mergers-acquisitions':()=>{bindStepper('maSteps',MA_STEPS);const ids=['vE','vL','vH','vD'];const f=()=>{if(+vH.value<+vL.value)vH.value=vL.value;ids.forEach(i=>document.getElementById(i+'v').textContent=v7Lbl(document.getElementById(i)));
+   const e=+vE.value,lo=e*+vL.value,hi=e*+vH.value,d=+vD.value,el=lo-d,eh=hi-d;vEV.textContent=crf(lo)+' – '+crf(hi);vEq.textContent=crf(el)+' – '+crf(eh);vMid.textContent=crf((el+eh)/2);
+   const mx=Math.max(hi,1);vBar.innerHTML=`<div class="vr-track"><i class="vr-ev" style="left:${lo/mx*100}%;width:${(hi-lo)/mx*100}%"></i></div><div class="vr-lbl"><span>EV ${crf(lo)}</span><span>${crf(hi)}</span></div>`};ids.forEach(i=>document.getElementById(i).addEventListener('input',f));f()},
+ 'corporate-finance-advisory':()=>{const ids=['hR','hE','hD','hC','hDr','hIn','hCr'];const f=()=>{ids.forEach(i=>document.getElementById(i+'v').textContent=v7Lbl(document.getElementById(i)));
+   const R=+hR.value,E=+hE.value,nd=+hD.value-+hC.value,m=E/R*100,lev=E>0?nd/E:Infinity,ccc=+hDr.value+ +hIn.value-+hCr.value;
+   const L=(v,g,w)=>v<=g?'good':v<=w?'watch':'act';
+   const mL=m>=15?'good':m>=8?'watch':'act',lL=nd<=0?'good':L(lev,2,3.5),cL=L(ccc,60,120);
+   const card=(t,v,l,msg)=>`<div class="hc-card hc-${l}"><span>${t}</span><b>${v}</b>${flag(l,{good:'Healthy',watch:'Watch',act:'Act now'}[l])}<small>${msg}</small></div>`;
+   hcOut.innerHTML=card('EBITDA margin',m.toFixed(1)+'%',mL,mL==='good'?'Solid operating profitability.':'Review pricing, product mix and overheads.')+
+     card('Net debt / EBITDA',nd<=0?'Net cash':(isFinite(lev)?lev.toFixed(1)+'x':'n/a'),lL,lL==='good'?'Comfortable leverage for lenders.':'Lenders may tighten terms; consider equity or refinancing.')+
+     card('Cash conversion cycle',ccc+' days',cL,cL==='good'?'Cash returns quickly from operations.':'Working capital is tying up cash; tighten collections and inventory.')};ids.forEach(i=>document.getElementById(i).addEventListener('input',f));f()}};
+
+/* ---------- service page with richer content ---------- */
+function servicePage(s){
+  const faq=[[`How does a ${s.title} engagement start?`,'With a confidential call to understand your objectives. Where needed we sign an NDA, then share a scoped proposal with fees before any work begins.'],['What should I prepare for the first call?','Your last two or three years of financial statements, a short business overview and your objectives. We will tell you what else is useful after the first call.'],['How are fees structured?','Usually a fixed component plus a success-linked component, agreed in writing before work begins.'],['Is submitting the form a commitment?','No. It only starts a conversation. An engagement begins when both sides sign a written mandate.']];
+  const nav=[['sv-ov','Overview'],['sv-inc','Services'],['sv-tool','Interactive tool'],['sv-ben','Benefits'],['sv-how','How we deliver'],['sv-faq','FAQ']];
+  return `${pageHead(`<a href="#services">Services</a><span>/</span><span>${s.title}</span>`,s.tag,s.title,s.tagline,photo(SVC_PHOTO[s.slug]))}
+<section><div class="wrap svc-layout">
+  <div class="svc-main">
+    <nav class="subnav" aria-label="On this page">${nav.map(([id,l],i)=>`<button data-jump="${id}" class="${i===0?'on':''}">${l}</button>`).join('')}</nav>
+    <div id="sv-ov" class="svc-block"><span class="eyebrow">Overview & value proposition</span><h2>${s.title} <em>at Beyondmatrix</em></h2><p class="lead">${s.overview}</p>
+      <div class="ben-grid">${s.benefits.map((b,i)=>`<div class="ben"><span class="db-no">${String(i+1).padStart(2,'0')}</span>${ic('checkc')}<b>${b}</b></div>`).join('')}</div></div>
+    <div id="sv-inc" class="svc-block"><span class="eyebrow">Core services</span><h2>What's <em>included</em></h2><div class="feat-grid">${s.features.map(([t,d,i],n)=>`<div class="feat"><span class="no">${String(n+1).padStart(2,'0')}</span><span class="ico-ring">${ic(i)}</span><h3>${t}</h3><p>${d}</p></div>`).join('')}</div></div>
+    <div id="sv-tool" class="svc-block tool-block"><span class="eyebrow">Interactive tool</span><h2>${s.tool.replace(/ & /,' <em>& ')}${s.tool.includes(' & ')?'</em>':''}</h2>${TOOLS[s.slug]()}</div>
+    <div id="sv-ben" class="svc-block"><span class="eyebrow">Key benefits</span><div class="kb-grid">${s.keyBenefits.map(([t,d],i)=>`<div class="kb"><span class="kb-n">${String(i+1).padStart(2,'0')}</span><h3>${t}</h3><p>${d}</p></div>`).join('')}</div></div>
+    <div id="sv-how" class="svc-block"><span class="eyebrow">How we deliver</span><h2>Four steps, <em>one accountable team</em></h2>
+      <div class="mini-steps">${[['Assess','Understand the business, numbers and goal.'],['Structure','Design the route, terms and timeline.'],['Execute','Prepare documents, run outreach, negotiate.'],['Support','Close, comply and keep improving.']].map(([t,d],i)=>`<div class="ms"><span>${i+1}</span><b>${t}</b><p>${d}</p></div>`).join('')}</div>
+      <div class="photo-wide short">${photo(SVC_WIDE[s.slug])}</div></div>
+    <div id="sv-faq" class="svc-block"><span class="eyebrow">Common questions</span>${faq.map(([q,a],i)=>`<div class="acc"><button aria-expanded="false" aria-controls="sacc${i}" id="saccb${i}"><span class="qt">${q}</span><span class="pm">+</span></button><div class="panel" id="sacc${i}" role="region" aria-labelledby="saccb${i}" hidden><p>${a}</p></div></div>`).join('')}</div>
+    <div class="svc-block"><span class="eyebrow">Explore related services</span><div class="rel-grid">${SERVICES.filter(x=>x.slug!==s.slug).slice(0,3).map(x=>`<a class="rel" href="#${x.slug}">${photo(SVC_PHOTO[x.slug],'rel-ph')}<div><b>${x.title}</b><small>${x.tag}</small><span class="more">Read more ${ic('arrow')}</span></div></a>`).join('')}</div></div>
+  </div>
+  <aside class="sticky-form" id="consult">${formHTML(s.slug,s.fields,`Request ${/^[AEIOU]/.test(s.title)?'an':'a'} ${s.title} consultation`,'A senior adviser replies within one business day.',s.note)}</aside>
+</div></section>
+${ctaBand(`Ready to discuss ${s.title.toLowerCase()}?`,'Schedule a consultation and a senior adviser will reply within one business day.','phone2')}`;
+}
+
+/* ---------- About ---------- */
+const AUD=[['spark','Early-stage businesses','Angel and early venture rounds, pitch decks and the finance basics investors expect.','fund-raising'],['trend','Growth companies','Growth capital, debt and a Virtual CFO to scale with control.','virtual-cfo-services'],['bank','Mid-market enterprises','Debt syndication, capital structure, acquisitions and strategic investors.','debt-advisory'],['bell','Pre-IPO companies','Readiness, governance, restated financials and pre-IPO placements.','ipo-advisory']];
+P['about-us']=()=>`${pageHead('<span>About Us</span>','About Beyondmatrix','Your long-term partner in <em>corporate finance</em>','A Mumbai-based corporate finance and investment banking advisory firm connecting growing companies with institutional capital.',photo('office'))}
+${glanceHTML()}
+<section><div class="wrap ab3">
+  <div class="ab3-media">${photo('boardroom','ab3-main')}<div class="ab3-badge"><b>6</b><span>Integrated practice areas</span></div><div class="ab3-chip">${ic('pin')}<span>Raylon Arcade, Andheri East</span></div></div>
+  <div class="ab3-copy"><span class="eyebrow">Who we are</span><h2>Bridging growing companies with <em>institutional capital</em></h2>
+  <p class="muted">Beyondmatrix Capital Private Limited is a corporate finance and advisory firm helping businesses raise growth capital, improve financial performance and expand sustainably. We work with entrepreneurs and enterprises at every stage, from early-stage businesses to mid-market companies preparing for an IPO.</p>
+  <blockquote class="pull">We partner with ambitious businesses to raise capital, optimise performance, and unlock long-term enterprise value.</blockquote>
+  <div class="hero-actions"><a class="btn btn-primary" href="#services">Our services <span class="arrow-dot">${ic('arrow')}</span></a><a class="btn btn-ghost" href="#contact-us">Talk to us</a></div></div>
+</div></section>
+<section class="alt"><div class="wrap">${secC('Who we work with','Advice for <em>every stage</em> of growth','Select the stage closest to yours to see where we usually start.')}
+  <div class="aud">${AUD.map(([i,t,d,s],n)=>`<a class="aud-card" href="#${s}"><span class="db-no">${String(n+1).padStart(2,'0')}</span><span class="ico-ring">${ic(i)}</span><h3>${t}</h3><p>${d}</p><span class="more">Start with ${SVC[s].title} ${ic('arrow')}</span></a>`).join('')}</div></div></section>
+<section><div class="wrap">${secC('Purpose','Why we <em>exist</em>','')}
+  <div class="grid g2">
+    <div class="mv"><span class="ico-ring">${ic('target')}</span><span class="eyebrow">Mission</span><h3>To empower businesses with tailored financial solutions, right-fit capital and strategic advisory.</h3><p class="muted">We match each company with the funding route, partner and structure that fits its stage, not the one that is easiest to sell.</p></div>
+    <div class="mv blue"><span class="ico-ring">${ic('globe')}</span><span class="eyebrow inv">Vision</span><h3>To be a highly trusted strategic financial partner for growing businesses.</h3><p>Known for integrity and long-term value creation.</p></div>
+  </div></div></section>
+<section class="quote-band"><div class="wrap"><blockquote>“Integrity in advice and excellence in execution are the foundations of true <em>enterprise value</em>.”</blockquote><span>Beyondmatrix Capital</span></div></section>
+${darkBand('Core values','What drives us <em>forward</em>','Four principles that shape how we take on, run and close every mandate.',[['shield','Integrity & transparency','Honest, transparent advice at every stage of a deal.'],['users','Client-first execution','Strategies aligned to your long-term goals, not short-term fees.'],['bank','Deep market access','Relationships with investors, lenders and regulators.'],['checkc','End-to-end ownership','From preparation through post-transaction integration.']],'team2')}
+<section><div class="wrap">${svcHead('Why Beyondmatrix','Four reasons clients <em>choose us</em>','')}
+  <div class="why4">${[['users','Experienced professionals','Corporate finance and investment banking experience in one team.'],['layers','Tailored, end-to-end','Solutions built around you, with support through the full transaction.'],['handshake','Strong network','Relationships with investors, banks, NBFCs and financial institutions.'],['lock','Integrity & confidentiality','Transparency in advice and discretion with every detail you share.']].map(([i,t,d])=>`<div class="why4-i"><span class="ico-ring">${ic(i)}</span><div><b>${t}</b><p>${d}</p></div></div>`).join('')}</div></div></section>
+${processHTML(false)}
+<section class="alt"><div class="wrap">${svcHead('Where we can help','Six practices, <em>one team</em>','Choose a practice to see what is included.')}${explorerHTML()}</div></section>
+${ctaBand('Let\'s talk about your growth plans',undefined,'handshake2')}`;
+
+/* ---------- Contact ---------- */
+const TOPICS=['IPO Advisory','Fund Raising','Debt Advisory','Virtual CFO Services','Mergers & Acquisitions','Corporate Finance Advisory','General inquiry'];
+P['contact-us']=()=>`${pageHead('<span>Contact Us</span>','Contact','Strategic advisory hub <em>in Mumbai</em>','Headquartered in Andheri East, at Raylon Arcade in the J.B. Nagar business corridor. Write to us, visit, or send an inquiry below.')}
+<section><div class="wrap svc-layout contact-layout">
+  <div style="display:grid;gap:22px;min-width:0">
+    <div class="help"><span class="g-ico">${ic('mail')}</span><div><b>Our helpline</b><p>Questions about raising capital, IPOs or loans? Email us and a senior adviser will reply within one business day.</p><span class="help-mail">${SITE.email}</span></div><button class="btn btn-light btn-sm" data-copy="${SITE.email}">Copy email</button></div>
+    <div><span class="xp-h">What would you like to discuss?</span><div class="topics">${TOPICS.map(t=>`<button class="topic" data-topic="${t}">${t}</button>`).join('')}</div></div>
+    <div class="cinfo">
+      <div class="item"><span class="ico-box">${ic('pin')}</span><div><b>Office</b><span>${SITE.address}</span><br><button class="copy" data-copy="${SITE.address}">Copy address</button> <a class="copy" style="display:inline-block" href="https://www.google.com/maps/search/?api=1&query=Raylon+Arcade+Kondivita+Andheri+East+Mumbai" target="_blank" rel="noopener">Get directions</a></div></div>
+      <div class="item"><span class="ico-box">${ic('clock')}</span><div><b>Business hours</b><span>${SITE.hours}. We reply to inquiries within one business day.</span></div></div>
+    </div>
+    <div><span class="xp-h">What happens next</span><div class="next3">${[['Inquiry received','You get a reference number straight away.'],['Adviser call','A senior adviser calls within one business day.'],['Scoped proposal','If there is a fit, you receive scope and fees in writing.']].map(([t,d],i)=>`<div><span>${i+1}</span><b>${t}</b><p>${d}</p></div>`).join('')}</div></div>
+    <div class="mapart" aria-label="Illustrated map of the office location">${ART.map}</div>
+  </div>
+  <aside id="consult">${formHTML('contact',CONTACT_FIELDS,'Send us a message','We usually reply within one business day.')}</aside>
+</div></section>`;
+function bindContact(){document.querySelectorAll('.topic').forEach(b=>b.onclick=()=>{document.querySelectorAll('.topic').forEach(x=>x.classList.toggle('on',x===b));const sel=document.getElementById('f-contact-subject');if(sel){sel.value=b.dataset.topic==='General inquiry'?'General inquiry':b.dataset.topic;sel.dispatchEvent(new Event('input',{bubbles:true}))}
+  document.getElementById('consult').scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>document.getElementById('f-contact-fullName')?.focus({preventScroll:true}),450)});
+  document.querySelectorAll('.help [data-copy]').forEach(b=>b.onclick=()=>copyText(b.dataset.copy))}
+
+const __bind3=bind;
+bind=function(r){__bind3(r);if(BIND[r])BIND[r]();if(r==='contact-us')bindContact()};
 
 render();
