@@ -920,3 +920,14 @@ header.site .wrap{height:100px}
 .xpx-link{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--b-royal)}
 .xpx-link svg{width:16px;height:16px;transition:transform .2s}
 .xpx-link:hover svg{transform:translateX(4px)}
+
+/* ===== transparent market-chart graphic behind deep-blue bands ===== */
+.studio-sec,.dband,.sec-tool,.phead-panel{position:relative;overflow:hidden}
+.studio-sec::after,.dband::after,.sec-tool::after{content:"";position:absolute;inset:0;background:url("../images/chart-bg.svg") center/cover no-repeat;opacity:.6;mix-blend-mode:screen;pointer-events:none;z-index:0}
+.studio-sec::after{opacity:.85}
+.dband::after{background-size:cover;opacity:.6}
+.sec-tool::after{opacity:.8}
+.studio-sec .wrap,.dband .wrap,.sec-tool .wrap{position:relative;z-index:1}
+.phead-panel::after{content:"";position:absolute;inset:0;background:url("../images/chart-bg.svg") center/cover no-repeat;opacity:.4;mix-blend-mode:screen;pointer-events:none}
+.phead-panel>*{position:relative;z-index:1}
+@media (max-width:640px){.studio-sec::after,.dband::after,.sec-tool::after{background-size:220% auto;background-position:30% 60%}}
