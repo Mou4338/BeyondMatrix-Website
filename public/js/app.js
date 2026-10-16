@@ -805,6 +805,52 @@ const FIGS={
    s+=`<line class="thr" x1="${x(best)}" x2="${x(best)}" y1="${y(w(best))}" y2="${t+ch}"/><circle class="pt-key" cx="${x(best)}" cy="${y(w(best))}" r="6"><title>Lowest WACC ${w(best).toFixed(1)}% at ${Math.round(best*100)}% debt</title></circle><text class="note" x="${x(best)}" y="${y(w(best))-14}" text-anchor="middle">Lowest WACC ${w(best).toFixed(1)}%</text>`;
    return s+'</svg>'}};
 const FIG_CAP={'ipo-advisory':'Indicative sequencing of an IPO programme, from mandate to listing day','fund-raising':'Ownership before and after a ₹25 Cr raise at ₹100 Cr pre-money valuation','debt-advisory':'Total interest on a ₹10 Cr, 5-year term loan at three interest rates','virtual-cfo-services':'13-week cash-flow forecast: a shortfall is flagged weeks before it happens','mergers-acquisitions':'Bridge from enterprise value to equity value','corporate-finance-advisory':'How leverage changes the cost of capital, and where WACC is lowest'};
+/* ===== Signature design elements: ribbon, bento, network, spotlight, reveal ===== */
+const RIBBON=[['SME IPO','ipo-advisory'],['Mainboard IPO','ipo-advisory'],['Pre-IPO placement','ipo-advisory'],['Angel & seed','fund-raising'],['Series A to C','fund-raising'],['Private equity','fund-raising'],['Working capital','debt-advisory'],['Term loans','debt-advisory'],['Project finance','debt-advisory'],['Loan against property','debt-advisory'],['MIS & FP&A','virtual-cfo-services'],['Cash-flow management','virtual-cfo-services'],['Buy-side M&A','mergers-acquisitions'],['Sell-side M&A','mergers-acquisitions'],['Business valuation','mergers-acquisitions'],['Capital structure','corporate-finance-advisory'],['Financial modelling','corporate-finance-advisory'],['Restructuring','corporate-finance-advisory']];
+const ribbon=()=>{const row=RIBBON.map(([t,s])=>`<a href="#${s}">${t}</a><i aria-hidden="true">/</i>`).join('');
+  return `<div class="ribbon" aria-label="Mandate types we advise on"><span class="rb-tag">Mandates</span><div class="rb-view"><div class="rb-track">${row}<span aria-hidden="true" class="rb-dup">${row}</span></div></div></div>`};
+
+const NET_NODES=[['Banks',0],['NBFCs',1],['PE / VC funds',2],['HNIs & family offices',3],['Stock exchanges',4],['Strategic buyers',5]];
+function networkSVG(){
+  const W=500,H=250,cx=W/2,cy=H/2,rx=135,ry=92;
+  let s=`<svg class="net" viewBox="0 0 ${W} ${H}" role="img" aria-label="Beyond Matrix at the centre of banks, NBFCs, PE and VC funds, HNIs, exchanges and strategic buyers">`;
+  const pts=NET_NODES.map(([l],i)=>{const a=-Math.PI/2+i*Math.PI*2/NET_NODES.length;return [cx+rx*Math.cos(a),cy+ry*Math.sin(a),l]});
+  pts.forEach(([x,y],i)=>{s+=`<line class="net-l" x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" style="--i:${i}"/>`});
+  pts.forEach(([x,y],i)=>{const n=pts[(i+1)%pts.length];s+=`<line class="net-r" x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${n[0].toFixed(1)}" y2="${n[1].toFixed(1)}"/>`});
+  pts.forEach(([x,y,l],i)=>{const anc=Math.abs(x-cx)<10?'middle':x>cx?'start':'end',dx=anc==='middle'?0:x>cx?10:-10,dy=Math.abs(x-cx)<10?(y<cy?-12:20):4;
+    s+=`<circle class="net-n" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" style="--i:${i}"/><text class="net-t" x="${(x+dx).toFixed(1)}" y="${(y+dy).toFixed(1)}" text-anchor="${anc}">${l}</text>`});
+  s+=`<circle class="net-c2" cx="${cx}" cy="${cy}" r="30"/><circle class="net-c" cx="${cx}" cy="${cy}" r="22"/><text class="net-ct" x="${cx}" y="${cy+4}" text-anchor="middle">BM</text>`;
+  return s+'</svg>';
+}
+const bento=()=>`<section class="bento-sec"><div class="wrap">
+  ${secHead('','The firm at a glance','Built for decisions that cannot be undone.','How we work, who we work with, and what you can expect from the first call.')}
+  <div class="bento">
+    <div class="bt bt-a spot rv"><span class="kicker inv">Operating model</span><h3>One senior team, from mandate to closing.</h3><p>The adviser who scopes your mandate stays on it through negotiation, approvals and closing.</p>
+      <ol class="bt-track">${['Assess','Structure','Execute','Support'].map((t,i)=>`<li style="--i:${i}"><span>${pad2(i+1)}</span>${t}</li>`).join('')}</ol></div>
+    <div class="bt bt-b spot rv"><span class="kicker">Response time</span><b class="bt-big">1</b><span class="bt-unit">business day</span><p>A senior adviser replies to every inquiry.</p></div>
+    <div class="bt bt-c spot rv"><span class="bt-ico">${ic('lock')}</span><span class="kicker">Confidential by default</span><p>NDA before data, need-to-know access, and no outreach to investors or buyers without your written approval.</p></div>
+    <div class="bt bt-d spot rv"><span class="kicker">Capital network</span><h3>Relationships across the capital stack.</h3>${networkSVG()}</div>
+    <div class="bt bt-e spot rv"><span class="kicker">Capital routes compared</span><ul class="routes">${[['Equity','Growth capital, PE/VC, IPO','s1'],['Debt','Working capital, term, project','s2'],['Hybrid','CCDs, CCPS, mezzanine','s3']].map(([t,d,c])=>`<li><i class="${c}"></i><b>${t}</b><small>${d}</small></li>`).join('')}</ul><p>We model every route side by side before recommending one.</p></div>
+    <div class="bt bt-f spot rv"><span class="kicker">Sectors</span><div class="chips">${['Manufacturing','Pharma','Infrastructure','Technology'].map(t=>`<span>${t}</span>`).join('')}<span class="more">and more</span></div><p>Promoter-led businesses across India.</p></div>
+  </div>
+</div></section>`;
+
+function bindTrend(){
+  // spotlight follows the pointer on cards
+  if(!window.__bmSpot&&matchMedia('(hover:hover)').matches){window.__bmSpot=true;
+    document.addEventListener('pointermove',e=>{const el=e.target.closest&&e.target.closest('.spot');if(!el)return;const r=el.getBoundingClientRect();el.style.setProperty('--mx',(e.clientX-r.left)+'px');el.style.setProperty('--my',(e.clientY-r.top)+'px')},{passive:true})}
+  // scroll progress
+  const bar=document.getElementById('sprog');
+  if(bar){const f=()=>{const h=document.documentElement.scrollHeight-innerHeight;bar.style.transform=`scaleX(${h>0?Math.min(1,scrollY/h):0})`};f();window.addEventListener('scroll',f,{passive:true})}
+  // reveal on scroll
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const els=document.querySelectorAll('main .sh,main .prow,main .aud-c,main .plist li,main .why4>div,main .kb3>div,main .steps4 li,main .mv2>div,main .rv,main .lc-card,main .studio,main .proc,main .mx-wrap,main .scope,main .tool-blk,main .faq2-r .acc');
+  if(reduce||!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return}
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -6% 0px'});
+  els.forEach((el,i)=>{if(el.getBoundingClientRect().top<innerHeight){el.classList.add('in');return}el.classList.add('rv');el.style.setProperty('--d',((i%4)*70)+'ms');io.observe(el)});
+}
+const phdLine=()=>{const W=1440,H=120,pts=[];let y=78;for(let i=0;i<=36;i++){y=Math.max(18,Math.min(104,y+Math.sin(i*1.7)*9-1.1+Math.cos(i*.6)*4));pts.push(`${(i*W/36).toFixed(0)},${y.toFixed(1)}`)}
+  return `<svg class="phd-line" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><polyline points="${pts.join(' ')}" pathLength="1"/></svg>`};
 /* ===== Layout and pages: serious, analytical design ===== */
 const SKIN=['#F1C7A5','#D9A47E','#B97E58','#8A5A3C','#E8B48F'];
 const HERO_SRC='images/hero-advisers.webp';
@@ -827,7 +873,7 @@ function header(r){
   </nav>
   <a class="btn btn-ink hide-nav" href="#contact-us" data-cta>Request a consultation</a>
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">${ic('menu')}</button>
-</div></header>
+</div><div class="sprog" aria-hidden="true"><i id="sprog"></i></div></header>
 <div class="drawer-nav" id="mnav" hidden><div class="dn-top"><img src="${LOGO_SRC.full}" alt="Beyond Matrix Capital" height="44"><button class="icon-btn" id="mclose" aria-label="Close menu">${ic('x')}</button></div>
   <a href="#home">Home</a><a href="#about-us">The Firm</a><a href="#services">Practices</a><div class="dn-sub">${SERVICES.map(s=>`<a href="#${s.slug}">${s.title}</a>`).join('')}</div><a href="#toolkit">Tools & Analytics</a><a href="#contact-us">Contact</a><a href="#admin">Staff login</a>
   <a class="btn btn-ink" href="#contact-us">Request a consultation</a></div>`;
@@ -840,16 +886,17 @@ function footer(){
     <div><h4>Firm</h4><ul><li><a href="#about-us">About the firm</a></li><li><a href="#services">All practices</a></li><li><a href="#toolkit">Tools & Analytics</a></li><li><a href="#contact-us">Contact</a></li><li><a href="#admin">Staff login</a></li></ul></div>
     <div><h4>Office</h4><ul class="f-office"><li>${SITE.address}</li><li class="mono">${SITE.email}</li><li>${SITE.hours}</li></ul></div>
   </div>
+  <div class="f-mark" aria-hidden="true">Beyond Matrix</div>
   <div class="f-bot"><span>© ${new Date().getFullYear()} ${SITE.name}. All rights reserved.</span><span class="f-legal"><a href="#privacy-policy">Privacy Policy</a><a href="#terms-and-conditions">Terms & Conditions</a></span></div>
   <p class="f-disc">Information on this website is general in nature and is not financial, legal, investment or tax advice. Calculators and figures are illustrative. Submitting an inquiry does not create an advisory engagement.</p>
 </div></footer>`;
 }
-const pageHead=(crumb,kicker,title,lead,fig='')=>`<section class="phd"><div class="wrap ${fig?'phd-g':''}"><div class="phd-t"><nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span>/</span>${crumb}</nav><span class="kicker inv">${kicker}</span><h1>${title}</h1>${lead?`<p class="lead">${lead}</p>`:''}</div>${fig?`<div class="phd-f">${fig}</div>`:''}</div></section>`;
+const pageHead=(crumb,kicker,title,lead,fig='')=>`<section class="phd">${phdLine()}<div class="wrap ${fig?'phd-g':''}"><div class="phd-t"><nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span>/</span>${crumb}</nav><span class="kicker inv">${kicker}</span><h1>${title}</h1>${lead?`<p class="lead">${lead}</p>`:''}</div>${fig?`<div class="phd-f">${fig}</div>`:''}</div></section>`;
 const secHead=(num,kicker,title,lead='')=>`<div class="sh">${num?`<span class="sh-n">${num}</span>`:''}<div class="sh-b"><span class="kicker">${kicker}</span><h2>${title}</h2>${lead?`<p>${lead}</p>`:''}</div></div>`;
 const svcHead=(k,t,l)=>secHead('',k,t,l);
 const ctaBand=(h='Discuss your next financial decision in confidence',p='Tell us where the business is headed. A senior adviser reviews every inquiry and replies within one business day.')=>`<section class="cta-sec"><div class="wrap"><div class="cta"><div><span class="kicker inv">Next step</span><h2>${h}</h2><p>${p}</p></div><div class="cta-a"><a class="btn btn-white" href="#contact-us">Request a consultation ${ic('arrow')}</a><a class="btn btn-line-inv" href="#toolkit">Use the tools</a></div></div></div></section>`;
 const kpiBand=()=>`<section class="kband-sec"><div class="wrap"><div class="kband">${[['12','+','Years of advisory experience'],['₹500',' Cr+','Capital raised for clients'],['100','+','Active client profiles'],['6','','Integrated practice areas']].map(([v,s,l])=>`<div class="kpi-c"><b class="num" data-count="${v.replace(/[^\d]/g,'')}" data-pre="${v.replace(/\d/g,'')}" data-suf="${s}">${v}${s}</b><span>${l}</span></div>`).join('')}</div><p class="src">Figures as published by Beyondmatrix Capital.</p></div></section>`;
-const practiceTable=(full)=>`<div class="ptable">${SERVICES.map((s,i)=>`<a class="prow" href="#${s.slug}"><span class="prow-n">${pad2(i+1)}</span><div class="prow-t"><h3>${s.title}</h3><small>${s.tag}</small></div><p>${s.short}</p><ul>${s.features.slice(0,full?4:3).map(f=>`<li>${f[0]}</li>`).join('')}</ul><span class="prow-go" aria-hidden="true">${ic('arrow')}</span></a>`).join('')}</div>`;
+const practiceTable=(full)=>`<div class="ptable">${SERVICES.map((s,i)=>`<a class="prow spot" href="#${s.slug}"><span class="prow-n">${pad2(i+1)}</span><div class="prow-t"><h3>${s.title}</h3><small>${s.tag}</small></div><p>${s.short}</p><ul>${s.features.slice(0,full?4:3).map(f=>`<li>${f[0]}</li>`).join('')}</ul><span class="prow-go" aria-hidden="true">${ic('arrow')}</span></a>`).join('')}</div>`;
 const faqBlock=(items,title,lead,open=0)=>`<div class="faq2"><div class="faq2-l">${secHead('','Questions',title,lead)}<div class="ask"><span class="kicker inv">Still have a question?</span><b class="mono">${SITE.email}</b><a class="btn btn-white btn-sm" href="#contact-us">Write to us ${ic('arrow')}</a></div></div>
   <div class="faq2-r">${items.map(([q,a,links],i)=>`<div class="acc"><button aria-expanded="${i===open}" aria-controls="facc${i}" id="faccb${i}"><span class="qn">${pad2(i+1)}</span><span class="qt">${q}</span><span class="pm" aria-hidden="true"></span></button><div class="panel" id="facc${i}" role="region" aria-labelledby="faccb${i}" ${i===open?'':'hidden'}><p>${a}</p>${links?`<div class="links">${links.map(s=>`<a class="lnk" href="#${s}">${SVC[s].title} ${ic('arrow')}</a>`).join('')}</div>`:''}</div></div>`).join('')}</div></div>`;
 const PRINCIPLES=[['Trusted financial shield','Oversight, regulatory compliance and transaction integrity built into every engagement.'],['Extensive investor reach','Working relationships with institutional investors, banks, NBFCs and lenders.'],['Maximise and retain value','Cash-flow discipline, budgeting and a capital structure that protects owner value.'],['Partner with experts','Investment bankers who stay with you from first equity raise through IPO execution.']];
@@ -871,14 +918,16 @@ P.home=()=>{FIGN=0;return `
     <div class="glass gl2" data-depth="-22"><span class="g-ico">${ic('shield')}</span><div><small>Practice areas</small><b>6 integrated</b></div></div>
   </div>
 </div></div></section>
+${ribbon()}
 ${kpiBand()}
 <section class="lc-sec"><div class="wrap lc-g">
   <div class="lc-copy">${secHead('','Capital lifecycle','Where we engage, stage by stage.','Every company passes through the same capital stages. Hover or tap a stage to see which practices apply, then open the one that fits.')}<div class="lc-out" id="lcOut" aria-live="polite"></div></div>
   <div class="lc-card">${figure(lifecycleFig(),'Where our practices engage across a company\'s capital lifecycle. Hover a stage.')}</div>
 </div></section>
+${bento()}
 <section><div class="wrap">${secHead('01','Practices','Six practices. One accountable team.','Each practice is led by specialists and connected to the others, so a fundraise, a loan and a listing can be planned as one programme.')}${practiceTable(false)}</div></section>
 <section class="alt"><div class="wrap">${secHead('02','Who we advise','Advice matched to the stage of the business.','')}
-  <div class="aud4">${AUD.map(([i,t,d,s],n)=>`<a class="aud-c" href="#${s}"><span class="aud-n">${pad2(n+1)}</span><h3>${t}</h3><p>${d}</p><span class="lnk">Start with ${SVC[s].title} ${ic('arrow')}</span></a>`).join('')}</div></div></section>
+  <div class="aud4">${AUD.map(([i,t,d,s],n)=>`<a class="aud-c spot" href="#${s}"><span class="aud-n">${pad2(n+1)}</span><h3>${t}</h3><p>${d}</p><span class="lnk">Start with ${SVC[s].title} ${ic('arrow')}</span></a>`).join('')}</div></div></section>
 ${studioHTML()}
 ${processHTML()}
 <section><div class="wrap pr-g">
@@ -904,7 +953,7 @@ ${kpiBand()}
   <ol class="plist">${[['Integrity and transparency','Honest, transparent advice at every stage of a deal.'],['Client-first execution','Strategies aligned to your long-term goals.'],['Deep market access','Relationships with investors, lenders and regulators.'],['End-to-end ownership','From preparation through post-transaction integration.']].map(([t,d],i)=>`<li><span class="pl-n">${pad2(i+1)}</span><div><h3>${t}</h3><p>${d}</p></div></li>`).join('')}</ol>
 </div></section>
 <section class="alt"><div class="wrap">${secHead('04','Who we advise','Advice matched to the stage of the business.','')}
-  <div class="aud4">${AUD.map(([i,t,d,s],n)=>`<a class="aud-c" href="#${s}"><span class="aud-n">${pad2(n+1)}</span><h3>${t}</h3><p>${d}</p><span class="lnk">Start with ${SVC[s].title} ${ic('arrow')}</span></a>`).join('')}</div></div></section>
+  <div class="aud4">${AUD.map(([i,t,d,s],n)=>`<a class="aud-c spot" href="#${s}"><span class="aud-n">${pad2(n+1)}</span><h3>${t}</h3><p>${d}</p><span class="lnk">Start with ${SVC[s].title} ${ic('arrow')}</span></a>`).join('')}</div></div></section>
 <section><div class="wrap">${secHead('05','Why Beyondmatrix','Four reasons clients choose us.','')}
   <div class="why4">${[['Experienced professionals','Corporate finance and investment banking experience in one team.'],['Tailored, end to end','Solutions built around you, with support through the full transaction.'],['Strong network','Relationships with investors, banks, NBFCs and financial institutions.'],['Integrity and confidentiality','Transparency in advice and discretion with every detail you share.']].map(([t,d],i)=>`<div><span class="pl-n">${pad2(i+1)}</span><h3>${t}</h3><p>${d}</p></div>`).join('')}</div></div></section>
 ${processHTML()}
@@ -914,6 +963,7 @@ const MATRIX=()=>`<div class="mx-wrap"><table class="mx" id="mx"><thead><tr><th>
 function bindMatrix(){const t=document.getElementById('mx');if(!t)return;t.querySelectorAll('td,th[data-c]').forEach(c=>{c.onmouseenter=()=>{const i=c.dataset.c;t.querySelectorAll('[data-c]').forEach(e=>e.classList.toggle('mxh',e.dataset.c===i));c.parentElement.classList.add('hr')};c.onmouseleave=()=>{t.querySelectorAll('.mxh').forEach(e=>e.classList.remove('mxh'));c.parentElement.classList.remove('hr')}})}
 
 P.services=()=>{FIGN=0;return `${pageHead('<span>Practices</span>','Practices','Comprehensive corporate finance and advisory solutions.','Six integrated practices covering capital raising, listing, lending, transactions and finance leadership.')}
+${ribbon()}
 ${kpiBand()}
 <section><div class="wrap">${secHead('01','All practices','What we offer.','Select a practice for scope, interactive analysis and a consultation form.')}${practiceTable(true)}</div></section>
 <section class="alt"><div class="wrap">${secHead('02','Coverage','Practice relevance by company stage.','Read across a row to see where a practice applies; hover to highlight a stage.')}${MATRIX()}<p class="src">Indicative. Every mandate is scoped individually.</p></div></section>
@@ -1027,7 +1077,7 @@ function bind(r){
   bindLifecycle();bindMatrix();
   if(BIND[r])BIND[r]();
   if(r==='contact-us')bindContact();
-  bindSubnav();
+  bindSubnav();bindTrend();
   const art=document.querySelector('.hero2-art');
   if(art&&!reduce&&matchMedia('(hover:hover)').matches){const panel=document.querySelector('.hero2-panel');
     panel.onmousemove=e=>{const r=panel.getBoundingClientRect();const dx=(e.clientX-r.left)/r.width-.5,dy=(e.clientY-r.top)/r.height-.5;art.querySelectorAll('[data-depth]').forEach(el=>{const d=+el.dataset.depth;el.style.translate=`${dx*d}px ${dy*d}px`})};
