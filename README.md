@@ -16,7 +16,7 @@ beyondmatrix-website/
 │   ├── index.html           ← page shell, SEO tags
 │   ├── css/styles.css       ← all design and colours
 │   ├── js/app.js            ← pages, content, forms, calculators, staff console
-│   ├── images/hero-advisers.webp
+│   ├── images/              logos (header, footer, favicon)
 │   ├── images/logo*.png      ← company logo (navy, white, full lockup with tagline)
 │   ├── favicon.ico/.png, apple-touch-icon.png, robots.txt, sitemap.xml, 404.html
 ├── api/
@@ -154,7 +154,6 @@ This replaces the current website on that domain.
 | `'npm' is not recognized` | Install Node.js, then fully close and reopen VS Code |
 | `running scripts is disabled on this system` | Run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, or switch the terminal to **Command Prompt** (⌄ next to +) |
 | `EADDRINUSE` / port 3000 in use | Another copy is running. Close it, or run `set PORT=3001 && npm start` (Command Prompt) and open localhost:3001 |
-| Stock photos missing | They load from the internet (Pexels/Pixabay). Check your connection; the hero photo is local and always shows |
 | Vercel shows 404 | GitHub must have `vercel.json` and `public/` at the top level, not inside another folder |
 | Forms don't email on the live site | Check the four environment variables in Vercel, then **Redeploy** |
 
@@ -163,7 +162,6 @@ This replaces the current website on that domain.
 ## Before going live: checklist
 - [ ] Inquiry emails configured and tested on the live site
 - [ ] Headline figures (12+ years, ₹500 Cr+, 100+ profiles) approved for publication
-- [ ] Hero photo licence: it appears to be a Freepik image; add an "Image by Freepik" credit or use a licensed or own photo
 - [ ] Privacy Policy and Terms reviewed by your legal adviser (DPDP Act, 2023)
 
 ## About the staff console (`/#admin`)
