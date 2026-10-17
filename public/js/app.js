@@ -851,6 +851,10 @@ function bindTrend(){
 }
 const phdLine=()=>{const W=1440,H=120,pts=[];let y=78;for(let i=0;i<=36;i++){y=Math.max(18,Math.min(104,y+Math.sin(i*1.7)*9-1.1+Math.cos(i*.6)*4));pts.push(`${(i*W/36).toFixed(0)},${y.toFixed(1)}`)}
   return `<svg class="phd-line" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><polyline points="${pts.join(' ')}" pathLength="1"/></svg>`};
+/* Toolkit: blue guide band above the closing CTA */
+const __tk=P.toolkit;
+P.toolkit=()=>__tk().replace('<section class="cta-sec">',`<section class="band band-blue"><div class="wrap">${secHead('','How to use these tools','Three quick ways to frame your requirement.','Each tool takes about a minute. Results stay in your browser and are a starting point for the first conversation.')}
+  <div class="aud4 g3">${[['Business loan EMI','Size a facility: see the monthly instalment, total interest and how much a lower rate saves.','emi','Open the calculator'],['IPO readiness self-check','Six questions on scale, governance and reporting give an indicative readiness score.','ipoq','Take the self-check'],['Service finder','Pick your goal and we point you to the practice and team best placed to help.','finder','Find a practice']].map(([t,d,id,l],n)=>`<a class="aud-c spot" href="#toolkit" data-jump="${id}"><span class="aud-n">${pad2(n+1)}</span><h3>${t}</h3><p>${d}</p><span class="lnk">${l} ${ic('arrow')}</span></a>`).join('')}</div></div></section><section class="cta-sec">`);
 /* ===== Layout and pages: serious, analytical design ===== */
 const SKIN=['#F1C7A5','#D9A47E','#B97E58','#8A5A3C','#E8B48F'];
 const HERO_SRC='images/hero-advisers.webp';
@@ -926,7 +930,7 @@ ${kpiBand()}
 </div></section>
 ${bento()}
 <section><div class="wrap">${secHead('01','Practices','Six practices. One accountable team.','Each practice is led by specialists and connected to the others, so a fundraise, a loan and a listing can be planned as one programme.')}${practiceTable(false)}</div></section>
-<section class="alt"><div class="wrap">${secHead('02','Who we advise','Advice matched to the stage of the business.','')}
+<section class="band band-blue"><div class="wrap">${secHead('02','Who we advise','Advice matched to the stage of the business.','')}
   <div class="aud4">${AUD.map(([i,t,d,s],n)=>`<a class="aud-c spot" href="#${s}"><span class="aud-n">${pad2(n+1)}</span><h3>${t}</h3><p>${d}</p><span class="lnk">Start with ${SVC[s].title} ${ic('arrow')}</span></a>`).join('')}</div></div></section>
 ${studioHTML()}
 ${processHTML()}
@@ -945,17 +949,17 @@ ${kpiBand()}
     <blockquote class="pq sm">“We partner with ambitious businesses to raise capital, optimise performance, and unlock long-term enterprise value.”</blockquote></div>
   <aside class="factsheet"><span class="kicker">Fact sheet</span><table>${[['Legal name',SITE.name],['Headquarters','Raylon Arcade, J.B. Nagar, Andheri East, Mumbai 400059'],['Practices','IPO · Fund Raising · Debt · Virtual CFO · M&A · Corporate Finance'],['Experience','12+ years'],['Capital raised','₹500 Cr+'],['Active client profiles','100+'],['Contact',SITE.email]].map(([k,v])=>`<tr><th>${k}</th><td>${v}</td></tr>`).join('')}</table></aside>
 </div></section>
-<section class="alt"><div class="wrap">${secHead('02','Purpose','Mission and vision.','')}
+<section class="band band-deep"><div class="wrap">${secHead('02','Purpose','Mission and vision.','')}
   <div class="mv2"><div><span class="kicker">Mission</span><h3>To empower businesses with tailored financial solutions, right-fit capital and strategic advisory.</h3><p>We match each company with the funding route, partner and structure that fits its stage, not the one that is easiest to sell.</p></div>
   <div><span class="kicker">Vision</span><h3>To be a highly trusted strategic financial partner for growing businesses.</h3><p>Known for integrity and long-term value creation.</p></div></div></div></section>
 <section><div class="wrap pr-g">
   <div>${secHead('03','Core values','What drives us forward.','')}<blockquote class="pq">“Integrity in advice and excellence in execution are the foundations of true enterprise value.”</blockquote></div>
   <ol class="plist">${[['Integrity and transparency','Honest, transparent advice at every stage of a deal.'],['Client-first execution','Strategies aligned to your long-term goals.'],['Deep market access','Relationships with investors, lenders and regulators.'],['End-to-end ownership','From preparation through post-transaction integration.']].map(([t,d],i)=>`<li><span class="pl-n">${pad2(i+1)}</span><div><h3>${t}</h3><p>${d}</p></div></li>`).join('')}</ol>
 </div></section>
-<section class="alt"><div class="wrap">${secHead('04','Who we advise','Advice matched to the stage of the business.','')}
+<section class="band band-blue"><div class="wrap">${secHead('04','Who we advise','Advice matched to the stage of the business.','')}
   <div class="aud4">${AUD.map(([i,t,d,s],n)=>`<a class="aud-c spot" href="#${s}"><span class="aud-n">${pad2(n+1)}</span><h3>${t}</h3><p>${d}</p><span class="lnk">Start with ${SVC[s].title} ${ic('arrow')}</span></a>`).join('')}</div></div></section>
 <section><div class="wrap">${secHead('05','Why Beyondmatrix','Four reasons clients choose us.','')}
-  <div class="why4">${[['Experienced professionals','Corporate finance and investment banking experience in one team.'],['Tailored, end to end','Solutions built around you, with support through the full transaction.'],['Strong network','Relationships with investors, banks, NBFCs and financial institutions.'],['Integrity and confidentiality','Transparency in advice and discretion with every detail you share.']].map(([t,d],i)=>`<div><span class="pl-n">${pad2(i+1)}</span><h3>${t}</h3><p>${d}</p></div>`).join('')}</div></div></section>
+  <div class="why4 cards">${[['Experienced professionals','Corporate finance and investment banking experience in one team.'],['Tailored, end to end','Solutions built around you, with support through the full transaction.'],['Strong network','Relationships with investors, banks, NBFCs and financial institutions.'],['Integrity and confidentiality','Transparency in advice and discretion with every detail you share.']].map(([t,d],i)=>`<div><span class="pl-n">${pad2(i+1)}</span><h3>${t}</h3><p>${d}</p></div>`).join('')}</div></div></section>
 ${processHTML()}
 ${ctaBand('Let\'s talk about your growth plans.')}`};
 
@@ -966,7 +970,9 @@ P.services=()=>{FIGN=0;return `${pageHead('<span>Practices</span>','Practices','
 ${ribbon()}
 ${kpiBand()}
 <section><div class="wrap">${secHead('01','All practices','What we offer.','Select a practice for scope, interactive analysis and a consultation form.')}${practiceTable(true)}</div></section>
-<section class="alt"><div class="wrap">${secHead('02','Coverage','Practice relevance by company stage.','Read across a row to see where a practice applies; hover to highlight a stage.')}${MATRIX()}<p class="src">Indicative. Every mandate is scoped individually.</p></div></section>
+<section class="band band-blue"><div class="wrap">${secHead('02','Who we advise','Advice matched to the stage of the business.','Find the stage closest to yours and start with the practice that fits it.')}
+  <div class="aud4">${AUD.map(([i,t,d,sl],n)=>`<a class="aud-c spot" href="#${sl}"><span class="aud-n">${pad2(n+1)}</span><h3>${t}</h3><p>${d}</p><span class="lnk">Start with ${SVC[sl].title} ${ic('arrow')}</span></a>`).join('')}</div></div></section>
+<section class="alt"><div class="wrap">${secHead('03','Coverage','Practice relevance by company stage.','Read across a row to see where a practice applies; hover to highlight a stage.')}${MATRIX()}<p class="src">Indicative. Every mandate is scoped individually.</p></div></section>
 <section><div class="wrap">${faqBlock(NEEDS,'Start from your business need.','Pick the question closest to your situation.')}</div></section>
 ${processHTML()}
 ${ctaBand()}`};
@@ -985,13 +991,13 @@ function servicePage(s){
     <div id="sv-sc" class="blk"><span class="kicker">Scope of work</span><h2>What the mandate covers</h2>
       <div class="scope"><table><thead><tr><th>#</th><th>Capability</th><th>What it covers</th></tr></thead><tbody>${s.features.map(([t,d],n)=>`<tr><td class="mono">${pad2(n+1)}</td><th>${t}</th><td>${d}</td></tr>`).join('')}</tbody></table></div></div>
     <div id="sv-tl" class="blk tool-blk"><span class="kicker">Interactive analysis</span><h2>${s.tool}</h2>${TOOLS[s.slug]()}</div>
-    <div id="sv-kb" class="blk"><span class="kicker">Key benefits</span><h2>Outcomes we work toward</h2><div class="kb3">${s.keyBenefits.map(([t,d],i)=>`<div><span class="pl-n">${pad2(i+1)}</span><h3>${t}</h3><p>${d}</p></div>`).join('')}</div></div>
+    <div id="sv-kb" class="blk bpanel"><span class="kicker">Key benefits</span><h2>Outcomes we work toward</h2><div class="kb3">${s.keyBenefits.map(([t,d],i)=>`<div><span class="pl-n">${pad2(i+1)}</span><h3>${t}</h3><p>${d}</p></div>`).join('')}</div></div>
     <div id="sv-pr" class="blk"><span class="kicker">Engagement process</span><h2>Four stages, one accountable team</h2><ol class="steps4">${[['Assess','Understand the business, the numbers and the goal.'],['Structure','Design the route, terms and timeline.'],['Execute','Prepare documents, run outreach, negotiate.'],['Support','Close, comply and keep improving.']].map(([t,d],i)=>`<li><span>${pad2(i+1)}</span><b>${t}</b><p>${d}</p></li>`).join('')}</ol></div>
     <div id="sv-fq" class="blk"><span class="kicker">Questions</span><h2>Frequently asked</h2>${faq.map(([q,a],i)=>`<div class="acc"><button aria-expanded="false" aria-controls="sacc${i}" id="saccb${i}"><span class="qt">${q}</span><span class="pm" aria-hidden="true"></span></button><div class="panel" id="sacc${i}" role="region" aria-labelledby="saccb${i}" hidden><p>${a}</p></div></div>`).join('')}</div>
-    <div class="blk"><span class="kicker">Related practices</span><div class="rel3">${SERVICES.filter(x=>x.slug!==s.slug).slice(0,3).map(x=>`<a href="#${x.slug}"><span class="mono">${pad2(SERVICES.indexOf(x)+1)}</span><b>${x.title}</b><small>${x.tag}</small>${ic('arrow')}</a>`).join('')}</div></div>
   </div>
   <aside class="svc-a" id="consult">${formHTML(s.slug,s.fields,`Request ${/^[AEIOU]/.test(s.title)?'an':'a'} ${s.title} consultation`,'A senior adviser replies within one business day.',s.note)}</aside>
 </div></section>
+<section class="band band-blue"><div class="wrap">${secHead('','Related practices','Often planned alongside this mandate.','Capital decisions rarely stand alone. These practices are most often combined with this one.')}<div class="aud4 g3">${SERVICES.filter(x=>x.slug!==s.slug).slice(0,3).map(x=>`<a class="aud-c spot" href="#${x.slug}"><span class="aud-n">${pad2(SERVICES.indexOf(x)+1)}</span><h3>${x.title}</h3><p>${x.short}</p><span class="lnk">View practice ${ic('arrow')}</span></a>`).join('')}</div></div></section>
 ${ctaBand(`Ready to discuss your ${s.title} mandate?`,'Schedule a confidential consultation. A senior adviser replies within one business day.')}`;
 }
 
@@ -1001,16 +1007,70 @@ P['contact-us']=()=>{FIGN=0;return `${pageHead('<span>Contact</span>','Contact',
     <div class="help"><div><span class="kicker inv">Our helpline</span><p>Questions about raising capital, IPOs or loans? Email us and a senior adviser will reply within one business day.</p><b class="mono help-mail">${SITE.email}</b></div><button class="btn btn-white btn-sm" data-copy="${SITE.email}">Copy email</button></div>
     <div><span class="kicker">What would you like to discuss?</span><div class="topics">${TOPICS.map(t=>`<button class="topic" data-topic="${t}">${t}</button>`).join('')}</div></div>
     <table class="office"><tbody>${[['Office',SITE.address+`<div class="o-act"><button class="lnk" data-copy="${SITE.address}">Copy address</button><a class="lnk" href="https://www.google.com/maps/search/?api=1&query=Raylon+Arcade+Kondivita+Andheri+East+Mumbai" target="_blank" rel="noopener">Get directions ${ic('arrow')}</a></div>`],['Email',`<span class="mono">${SITE.email}</span>`],['Hours',SITE.hours],['Response','Within one business day']].map(([k,v])=>`<tr><th>${k}</th><td>${v}</td></tr>`).join('')}</tbody></table>
-    <div><span class="kicker">What happens next</span><ol class="steps3">${[['Inquiry received','You get a reference number straight away.'],['Adviser call','A senior adviser calls within one business day.'],['Scoped proposal','If there is a fit, you receive scope and fees in writing.']].map(([t,d],i)=>`<li><span>${pad2(i+1)}</span><b>${t}</b><p>${d}</p></li>`).join('')}</ol></div>
+    <div class="bpanel"><span class="kicker">What happens next</span><ol class="steps3">${[['Inquiry received','You get a reference number straight away.'],['Adviser call','A senior adviser calls within one business day.'],['Scoped proposal','If there is a fit, you receive scope and fees in writing.']].map(([t,d],i)=>`<li><span>${pad2(i+1)}</span><b>${t}</b><p>${d}</p></li>`).join('')}</ol></div>
   </div>
   <aside id="consult">${formHTML('contact',CONTACT_FIELDS,'Send us a message','We usually reply within one business day.')}</aside>
-</div></section>`};
+</div></section>
+<section class="band band-blue"><div class="wrap">${secHead('','How we can help','Six practices, one senior team.','Not sure which to choose? Pick the closest match, or simply describe your situation in the form above.')}<div class="aud4 g3">${SERVICES.map(x=>`<a class="aud-c spot" href="#${x.slug}"><span class="aud-n">${pad2(SERVICES.indexOf(x)+1)}</span><h3>${x.title}</h3><p>${x.short}</p><span class="lnk">View practice ${ic('arrow')}</span></a>`).join('')}</div></div></section>`};
 
 function legal(title,crumb,sections){FIGN=0;
   return `${pageHead(`<span>${crumb}</span>`,'Legal',title,`Effective and last updated: ${SITE.policyDate}`)}
   <section><div class="wrap legal"><aside aria-label="On this page"><span class="kicker">Contents</span>${sections.map((s,i)=>`<a href="#lg${i}" data-jump="lg${i}"><span class="mono">${pad2(i+1)}</span>${s[0]}</a>`).join('')}</aside><article>${sections.map((s,i)=>`<h2 id="lg${i}"><span class="mono">${pad2(i+1)}</span>${s[0]}</h2>${s[1]}`).join('')}</article></div></section>`;
 }
 P.notfound=()=>`<section class="nf"><div class="wrap"><span class="mono nf-code">404</span><h1>This page is not on our books.</h1><p class="lead">The link may be outdated or mistyped.</p><div class="actions"><a class="btn btn-ink" href="#home">Go to home</a><a class="btn btn-line" href="#services">View practices</a></div></div></section>`;
+/* ===== Additions drawn from the firm's reference design: capital stack, leadership, sectors, who-it-is-for ===== */
+const LINKEDIN='https://www.linkedin.com/company/beyondmatrix-capital-private-limited/';
+const TEAM=[['VJ','CA Vijay Jaju','Founder · Chartered Accountant','Leads corporate finance, IPO and fundraising mandates.'],['RJ','Rahul Jaju','Director','Leads client relationships and transaction execution.'],['+','Advisory team','CAs · Analysts · Bankers','Financial modelling, diligence, documentation and MIS.']];
+const SECTORS=['Manufacturing','Infrastructure & EPC','Real estate','Healthcare & pharma','FMCG & consumer','Textiles','Chemicals','Logistics','Technology & SaaS','Renewable energy','Hospitality','Trading & distribution'];
+const WHO_FOR={'ipo-advisory':['Profitable companies planning to list in 1 to 3 years','Promoters wanting liquidity and a stronger brand','Businesses needing large, long-term growth capital'],
+ 'fund-raising':['Growth-stage companies raising ₹5 to 200 crore','Promoters seeking a strategic or financial partner','Companies planning a pre-IPO round'],
+ 'debt-advisory':['Companies expanding capacity or entering new markets','Businesses paying above-market interest rates','Promoters needing finance against receivables or assets'],
+ 'virtual-cfo-services':['Companies with ₹10 to 250 crore turnover','Founders spending too much time on finance','Businesses preparing for a raise or listing'],
+ 'mergers-acquisitions':['Promoters planning an exit or partial sale','Companies growing through acquisition','Family groups restructuring holdings'],
+ 'corporate-finance-advisory':['Boards planning the next three to five years','Companies weighing equity against debt','Promoters planning succession or reorganisation']};
+FAQ_HOME.push(['What size of company do you work with?','Mostly growing private companies, from early-growth businesses raising their first institutional round to mid-market enterprises preparing for a listing. If you are unsure, a first conversation will tell us both quickly.'],
+ ['How long does an SME IPO take?','Usually 6 to 12 months from appointment to listing for a company whose financials and governance are already in order. Restating accounts, converting to a public limited company or fixing compliance gaps adds time, which is why we start with a readiness review.',['ipo-advisory']],
+ ['Do you only work with companies in Mumbai?','No. We are based in Andheri East, Mumbai, and work with companies across India, meeting in person where it helps and online otherwise.']);
+const FEES_A='Fundraising and IPO mandates usually combine a fixed retainer with a success fee linked to closing. Virtual CFO services are a fixed monthly fee based on scope. Everything is agreed in writing before work starts.';
+FAQ_HOME.forEach(f=>{if(/fees structured/i.test(f[0]))f[1]=FEES_A});
+
+const capitalStack=()=>`<div class="cstack" aria-label="Illustrative capital plan">
+  <div class="cs-head"><b>An illustrative capital plan</b><span class="mono">₹ crore</span></div>
+  <div class="cs-layers">
+    <a class="cs-l cs-ipo" href="#ipo-advisory"><div><b>SME / Mainboard IPO</b><small>Listing in 24 to 36 months</small></div><span class="mono">Next stage</span></a>
+    <a class="cs-l cs-eq" href="#fund-raising" style="--w:100%"><div><b>Growth equity</b><small>PE / family office round</small></div><span class="mono">40.00</span></a>
+    <a class="cs-l cs-mez" href="#corporate-finance-advisory"><div><b>Structured / mezzanine</b><small>NCDs, convertible instruments</small></div><span class="mono">15.00</span></a>
+    <a class="cs-l cs-debt" href="#debt-advisory"><div><b>Senior debt</b><small>Term loan and working capital</small></div><span class="mono">25.00</span></a>
+  </div>
+  <div class="cs-bar" aria-hidden="true"><i class="s-eq" style="width:50%"></i><i class="s-mez" style="width:18.75%"></i><i class="s-debt" style="width:31.25%"></i></div>
+  <div class="cs-leg"><span><i class="s-eq"></i>Equity 50%</span><span><i class="s-mez"></i>Mezzanine 19%</span><span><i class="s-debt"></i>Debt 31%</span></div>
+  <p class="cs-foot">Example only. Every plan we build starts from your cash flows, not a template.</p>
+</div>`;
+const stackSection=()=>`<section class="stack-sec"><div class="wrap stack-g">
+  <div class="stack-copy">${secHead('','Capital planning','Capital, structured for the next stage of your business.','Most clients start with one need and stay for the next. A company that raises debt today is often preparing for equity or a listing tomorrow, so we plan the whole stack, not one layer.')}
+    <ul class="trust"><li>Led by Chartered Accountants</li><li>Institutional investor and lender network</li><li>Strict confidentiality on every mandate</li></ul>
+    <a class="btn btn-ink" href="#contact-us">Plan your capital stack ${ic('arrow')}</a></div>
+  ${capitalStack()}
+</div></section>`;
+const leadership=()=>`<section><div class="wrap">${secHead('','Leadership','The people on your mandate.','Senior professionals lead every engagement personally, from the first meeting to closing.')}
+  <div class="team">${TEAM.map(([i,n,r,d])=>`<div class="person spot"><span class="avatar">${i}</span><div><h3>${n}</h3><span class="role">${r}</span><p>${d}</p></div></div>`).join('')}</div></div></section>`;
+const sectorsSec=()=>`<section class="band band-blue"><div class="wrap sec-split">${secHead('','Sectors','Industries we work with.','Our advice is shaped by how each sector earns and spends: its working-capital cycle, its asset base and what investors look for.')}
+  <div class="chips-lg">${SECTORS.map((t,i)=>`<span style="--i:${i}">${t}</span>`).join('')}</div></div></section>`;
+
+/* wire into pages */
+(()=>{
+  const home=P.home;P.home=()=>home().replace('<section class="bento-sec">',stackSection()+'<section class="bento-sec">');
+  const about=P['about-us'];P['about-us']=()=>{let h=about();
+    h=h.replace(/<section class="band band-blue"><div class="wrap">(<div class="sh">.*?Who we advise)/s,leadership()+'<section class="band band-blue"><div class="wrap">$1');
+    const i=h.indexOf('<section class="sec-proc">');return i>0?h.slice(0,i)+sectorsSec()+h.slice(i):h};
+  const sp=servicePage;servicePage=s=>{let h=sp(s);
+    const who=`<div id="sv-wf" class="blk"><span class="kicker">Who it is for</span><h2>Best suited to</h2><ul class="wf">${(WHO_FOR[s.slug]||[]).map((t,i)=>`<li><span class="mono">${pad2(i+1)}</span>${t}</li>`).join('')}</ul></div>`;
+    h=h.replace('<div id="sv-tl"',who+'\n    <div id="sv-tl"');
+    h=h.replace('Usually a fixed component plus a success-linked component, agreed in writing before work begins.',FEES_A);
+    return h};
+  const ct=P['contact-us'];P['contact-us']=()=>ct().replace('<tr><th>Hours</th>',`<tr><th>LinkedIn</th><td><a href="${LINKEDIN}" target="_blank" rel="noopener">Beyondmatrix Capital on LinkedIn ${ic('arrow')}</a></td></tr><tr><th>Hours</th>`);
+  const ft=footer;footer=()=>ft().replace(/(<ul class="f-office">.*?)(<\/ul>)/s,`$1<li><a href="${LINKEDIN}" target="_blank" rel="noopener">LinkedIn ↗</a></li>$2`);
+})();
 /* ===== Router and behaviour ===== */
 const app=document.getElementById('app');
 const ROUTES=['home','about-us','services','contact-us','privacy-policy','terms-and-conditions','toolkit','admin',...SERVICES.map(s=>s.slug)];
