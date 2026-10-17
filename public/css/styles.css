@@ -1284,3 +1284,22 @@ main>section.band:last-child{border-bottom:1px solid rgba(255,255,255,.1)}
 .band .mv2 h3{color:#fff}
 /* grid texture on the closing CTA banner */
 .cta{background-color:var(--navy);background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px),radial-gradient(70% 120% at 100% 0%,#13296E 0%,rgba(8,22,64,0) 60%);background-size:48px 48px,48px 48px,100% 100%;background-position:-1px -1px,-1px -1px,0 0}
+
+/* ===== Scope of work: blue panel with bordered capability grid ===== */
+.scope-x{padding:clamp(28px,4vw,48px)!important;border-radius:10px!important;gap:28px!important;
+  background-color:#081640!important;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px),radial-gradient(80% 90% at 100% 0%,#14296E 0%,rgba(8,22,64,0) 60%),radial-gradient(70% 80% at 0% 100%,#10246A 0%,rgba(8,22,64,0) 60%)!important;
+  background-size:48px 48px,48px 48px,100% 100%,100% 100%!important}
+.scope-x::after{display:none!important}
+.sx-head{display:grid;grid-template-columns:1fr minmax(0,.8fr);gap:16px 40px;align-items:end}
+.sx-head>div{display:grid;gap:12px}
+.sx-head h2{color:#fff;font-size:clamp(1.6rem,2.6vw,2.1rem)}
+.sx-head p{color:#C9D3EA;font-size:.95rem}
+.sx-grid{display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.035)}
+.sx-c{padding:24px 26px;display:grid;gap:8px;align-content:start;border-top:1px solid rgba(255,255,255,.14);transition:background .2s}
+.sx-c:nth-child(-n+2){border-top:0}
+.sx-c:nth-child(even){border-left:1px solid rgba(255,255,255,.14)}
+.sx-c:not(.sx-fill):hover{background:rgba(255,255,255,.06)}
+.sx-c .mono{color:#9FB6EE;font-size:.78rem}
+.sx-c h3{color:#fff;font-size:1.2rem}
+.sx-c p{color:#C9D3EA!important;font-size:.92rem}
+@media (max-width:720px){.sx-head{grid-template-columns:1fr}.sx-grid{grid-template-columns:1fr}.sx-c:nth-child(even){border-left:0}.sx-c:nth-child(2){border-top:1px solid rgba(255,255,255,.14)}.sx-fill{display:none}}

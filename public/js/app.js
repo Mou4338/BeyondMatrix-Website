@@ -685,7 +685,7 @@ const BIND={
    const f=()=>{ids.forEach(i=>document.getElementById(i+'v').textContent=v7Lbl(document.getElementById(i)));const p=+eA.value*1e7,r=+eR2.value/1200,n=+eT.value*12,e=emi(p,r,n),e2=emi(p,(+eR2.value-1)/1200,n);
    eM.textContent='₹'+Math.round(e).toLocaleString('en-IN');eI.textContent=crf((e*n-p)/1e7);eS.textContent=crf((e-e2)*n/1e7)};ids.forEach(i=>document.getElementById(i).addEventListener('input',f));f()},
  'virtual-cfo-services':()=>{const box=document.getElementById('cfoChk');const f=()=>{const n=box.querySelectorAll('input:checked').length;cfoScore.textContent=n+' / 8';cfoBar.style.width=(n/8*100)+'%';
-   cfoRes.innerHTML=n>=7?`<b>Strong finance function.</b><span>A Virtual CFO can focus on strategy, investor reporting and capital raising.</span>`:n>=4?`<b>Good base, clear gaps.</b><span>Typical first 90 days: close the gaps above, starting with cash-flow forecasting and MIS timeliness.</span>`:`<b>Early-stage finance function.</b><span>A Virtual CFO would start with MIS, budgeting and a cash-flow forecast, the foundations lenders and investors expect.</span><a class="btn btn-primary btn-sm" style="justify-self:start" href="#consult" data-jump="consult">Request a consultation</a>`;
+   cfoRes.innerHTML=n>=7?`<b>Strong finance function.</b><span>A Virtual CFO can focus on strategy, investor reporting and capital raising.</span>`:n>=4?`<b>Good base, clear gaps.</b><span>Typical first 90 days: close the gaps above, starting with cash-flow forecasting and MIS timeliness.</span>`:`<b>Early-stage finance function.</b><span>A Virtual CFO would start with MIS, budgeting and a cash-flow forecast, the foundations lenders and investors expect.</span><a class="btn btn-primary btn-sm" style="justify-self:start" href="#contact-us">Request a consultation</a>`;
    document.querySelectorAll('#cfoRes [data-jump]').forEach(a=>a.onclick=e=>{e.preventDefault();document.getElementById('consult').scrollIntoView({behavior:'smooth'})})};box.addEventListener('change',f);f()},
  'mergers-acquisitions':()=>{bindStepper('maSteps',MA_STEPS);const ids=['vE','vL','vH','vD'];const f=()=>{if(+vH.value<+vL.value)vH.value=vL.value;ids.forEach(i=>document.getElementById(i+'v').textContent=v7Lbl(document.getElementById(i)));
    const e=+vE.value,lo=e*+vL.value,hi=e*+vH.value,d=+vD.value,el=lo-d,eh=hi-d;vEV.textContent=crf(lo)+' – '+crf(hi);vEq.textContent=crf(el)+' – '+crf(eh);vMid.textContent=crf((el+eh)/2);
@@ -840,6 +840,8 @@ function addTiles(){
   const PAT=['diag-a','pair-r','none','diag-b','pair-l','none'];
   document.querySelectorAll('main .band,main .sec-proc,main .cta,main .bpanel').forEach((el,i)=>{
     if(el.querySelector(':scope>.gtile'))return;
+    // no tiles in the closing banner on The Firm and Tools & Analytics pages
+    if(el.matches('.cta')&&['about-us','toolkit'].includes(route()))return;
     const pat=el.dataset.tiles||PAT[i%PAT.length];if(pat==='none')return;
     const sm=el.matches('.bpanel,.cta')?' sm':'';
     const pos=pat==='diag-a'?['tr','bl']:pat==='diag-b'?['tl','br']:pat==='pair-r'?['br','br2']:['bl','bl2'];
@@ -991,7 +993,7 @@ ${ctaBand()}`};
 
 function servicePage(s){
   FIGN=0;
-  const faq=[[`How does ${/^[AEIOU]/.test(s.title)?'an':'a'} ${s.title} engagement start?`,'With a confidential call to understand your objectives. Where needed we sign an NDA, then share a scoped proposal with fees before any work begins.'],['What should I prepare for the first call?','Your last two or three years of financial statements, a short business overview and your objectives. We will tell you what else is useful after the first call.'],['How are fees structured?','Usually a fixed component plus a success-linked component, agreed in writing before work begins.'],['Is submitting the form a commitment?','No. It only starts a conversation. An engagement begins when both sides sign a written mandate.']];
+  const faq=[[`How does ${/^[AEIOU]/.test(s.title)?'an':'a'} ${s.title} engagement start?`,'With a confidential call to understand your objectives. Where needed we sign an NDA, then share a scoped proposal with fees before any work begins.'],['What should I prepare for the first call?','Your last two or three years of financial statements, a short business overview and your objectives. We will tell you what else is useful after the first call.'],['How are fees structured?','Usually a fixed component plus a success-linked component, agreed in writing before work begins.'],['Is sending an inquiry a commitment?','No. It only starts a conversation. An engagement begins when both sides sign a written mandate.']];
   const nav=[['sv-ov','Overview'],['sv-sc','Scope'],['sv-tl','Analysis'],['sv-kb','Outcomes'],['sv-pr','Process'],['sv-fq','FAQ']];
   const idx=SERVICES.indexOf(s);
   return `${pageHead(`<a href="#services">Practices</a><span>/</span><span>${s.title}</span>`,`Practice ${pad2(idx+1)} · ${s.tag}`,s.title,s.tagline,figure(FIGS[s.slug](),FIG_CAP[s.slug]))}
@@ -1081,11 +1083,21 @@ const sectorsSec=()=>`<section class="band band-blue"><div class="wrap sec-split
   <div><span class="kicker">One accountable team</span><h3>The adviser who scopes your mandate stays on it to closing.</h3><p>Capital markets, credit, valuation and CFO specialists work as one team, so a fundraise, a loan and a listing can be planned as one programme.</p></div></div></div></section>`;
     return k>0?h.slice(0,k)+band+h.slice(k):h};
   const sp=servicePage;servicePage=s=>{let h=sp(s);
+    { // Scope of work: blue panel with a bordered capability grid
+      const a=h.indexOf('<div id="sv-sc"'),b=h.indexOf('<div id="sv-tl"');
+      if(a>=0&&b>a){const n=s.features.length;
+        const sc=`<div id="sv-sc" class="blk bpanel scope-x" data-tiles="diag-a">
+      <div class="sx-head"><div><span class="kicker">Scope of work</span><h2>What the mandate covers</h2></div><p>${n} capabilities, delivered by one senior team and scoped to your situation.</p></div>
+      <div class="sx-grid">${s.features.map(([t,d],i)=>`<div class="sx-c"><span class="mono">${pad2(i+1)}</span><h3>${t}</h3><p>${d}</p></div>`).join('')}${n%2?'<div class="sx-c sx-fill" aria-hidden="true"></div>':''}</div>
+    </div>
+    `;
+        h=h.slice(0,a)+sc+h.slice(b)}
+    }
     const fit=`<section class="band band-deep" data-tiles="diag-a"><div class="wrap">${secHead('','Fit and engagement','Who it is for, and how we work.','')}
   <div class="mv2"><div><span class="kicker">Who it is for</span><h3>Best suited to</h3><ol class="mvl">${(WHO_FOR[s.slug]||[]).map((t,i)=>`<li><span class="mono">${pad2(i+1)}</span>${t}</li>`).join('')}</ol></div>
   <div><span class="kicker">Engagement model</span><h3>One senior team, from assessment to closing.</h3><p>${FEES_A}</p><p>A confidential first conversation, an NDA where needed, then a written proposal with scope, timeline and fees before any work begins.</p></div></div></div></section>`;
     const k=h.indexOf('<section class="band band-blue">');
-    if(k>0)h=h.slice(0,k)+fit+h.slice(k);
+    // fit & engagement band removed from practice pages at the client's request
     h=h.replace('Usually a fixed component plus a success-linked component, agreed in writing before work begins.',FEES_A);
     return h};
   const ft=footer;footer=()=>ft().replace(/(<ul class="f-office">.*?)(<\/ul>)/s,`$1<li><a href="${LINKEDIN}" target="_blank" rel="noopener">LinkedIn ↗</a></li>$2`);
@@ -1115,7 +1127,7 @@ function gtSvc(s){
     if(a>=0){const b=h.indexOf('</aside>',a);h=h.slice(0,a)+h.slice(b+8)}
     h=h.replace('<div class="wrap svc-g">','<div class="wrap svc-g svc-wide">');
     const i=h.indexOf('<section class="band band-blue">');
-    return i>0?h.slice(0,i)+gtSvc(s)+h.slice(i):h+gtSvc(s)};
+    return h};  // Get in touch card removed from practice pages; enquiries go to the Contact page
 })();
 /* ===== Contact: split "Get in touch" card (blue panel + navy form) ===== */
 CONTACT_FIELDS.length=0;
@@ -1224,7 +1236,7 @@ function bindSubnav(){
 }
 function bind(r){
   bindNav();
-  if(SVC[r])document.querySelectorAll('[data-cta]').forEach(a=>a.onclick=e=>{e.preventDefault();document.getElementById('consult').scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>document.querySelector('#consult input')?.focus({preventScroll:true}),500)});
+  if(SVC[r]&&document.getElementById('consult'))document.querySelectorAll('[data-cta]').forEach(a=>a.onclick=e=>{e.preventDefault();document.getElementById('consult').scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>document.querySelector('#consult input')?.focus({preventScroll:true}),500)});
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   const cnt=el=>{const to=+el.dataset.count,pre=el.dataset.pre,suf=el.dataset.suf;let s=null;const step=t=>{s??=t;const p=Math.min(1,(t-s)/1100);el.textContent=pre+Math.round(to*(1-Math.pow(1-p,3)))+suf;if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)};
   if(!reduce&&'IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){cnt(e.target);io.unobserve(e.target)}}),{threshold:.4});document.querySelectorAll('[data-count]').forEach(el=>io.observe(el))}
