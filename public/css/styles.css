@@ -1276,3 +1276,11 @@ main>section.band:last-child{border-bottom:1px solid rgba(255,255,255,.1)}
 .cta-sec{padding-top:clamp(64px,8vw,104px)!important}
 /* breathing room above the closing CTA when it follows a coloured section */
 :is(.band,.sec-proc,.alt,.bento-sec,.studio-sec,.tl-sec,.gt-sec,.svc-sec)+.cta-sec{padding-top:clamp(56px,7vw,96px)}
+/* lists inside mission/vision style panels */
+.mvl{list-style:none;margin:0;padding:0;display:grid}
+.mvl li{display:grid;grid-template-columns:40px 1fr;gap:10px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.12);color:#DCE3F5}
+.mvl li:last-child{border-bottom:0}
+.mvl .mono{color:#9FB6EE;font-size:.8rem;padding-top:2px}
+.band .mv2 h3{color:#fff}
+/* grid texture on the closing CTA banner */
+.cta{background-color:var(--navy);background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px),radial-gradient(70% 120% at 100% 0%,#13296E 0%,rgba(8,22,64,0) 60%);background-size:48px 48px,48px 48px,100% 100%;background-position:-1px -1px,-1px -1px,0 0}

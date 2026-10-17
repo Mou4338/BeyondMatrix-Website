@@ -840,7 +840,7 @@ function addTiles(){
   const PAT=['diag-a','pair-r','none','diag-b','pair-l','none'];
   document.querySelectorAll('main .band,main .sec-proc,main .cta,main .bpanel').forEach((el,i)=>{
     if(el.querySelector(':scope>.gtile'))return;
-    const pat=PAT[i%PAT.length];if(pat==='none')return;
+    const pat=el.dataset.tiles||PAT[i%PAT.length];if(pat==='none')return;
     const sm=el.matches('.bpanel,.cta')?' sm':'';
     const pos=pat==='diag-a'?['tr','bl']:pat==='diag-b'?['tl','br']:pat==='pair-r'?['br','br2']:['bl','bl2'];
     el.insertAdjacentHTML('afterbegin',pos.map((p,k)=>`<span class="gtile ${k?'t2':'t1'} p-${p}${sm}" aria-hidden="true"></span>`).join(''));
@@ -1075,9 +1075,17 @@ const sectorsSec=()=>`<section class="band band-blue"><div class="wrap sec-split
   const about=P['about-us'];P['about-us']=()=>{let h=about();
     h=h.replace(/<section class="band band-blue"><div class="wrap">(<div class="sh">.*?Who we advise)/s,leadership()+'<section class="band band-blue"><div class="wrap">$1');
     const i=h.indexOf(leadership());return i>0?h.slice(0,i)+sectorsSec()+h.slice(i):h};
+  const sv=P.services;P.services=()=>{let h=sv();const k=h.indexOf('<section><div class="wrap"><div class="faq2">');
+    const band=`<section class="band band-deep" data-tiles="diag-b"><div class="wrap">${secHead('04','Our approach','Independent advice, executed by one team.','')}
+  <div class="mv2"><div><span class="kicker">Independent advice</span><h3>The route that fits your stage, not the one that is easiest to sell.</h3><p>We compare equity, debt, hybrid instruments and a listing side by side, with the trade-offs in writing, before recommending one.</p></div>
+  <div><span class="kicker">One accountable team</span><h3>The adviser who scopes your mandate stays on it to closing.</h3><p>Capital markets, credit, valuation and CFO specialists work as one team, so a fundraise, a loan and a listing can be planned as one programme.</p></div></div></div></section>`;
+    return k>0?h.slice(0,k)+band+h.slice(k):h};
   const sp=servicePage;servicePage=s=>{let h=sp(s);
-    const who=`<div id="sv-wf" class="blk"><span class="kicker">Who it is for</span><h2>Best suited to</h2><ul class="wf">${(WHO_FOR[s.slug]||[]).map((t,i)=>`<li><span class="mono">${pad2(i+1)}</span>${t}</li>`).join('')}</ul></div>`;
-    h=h.replace('<div id="sv-tl"',who+'\n    <div id="sv-tl"');
+    const fit=`<section class="band band-deep" data-tiles="diag-a"><div class="wrap">${secHead('','Fit and engagement','Who it is for, and how we work.','')}
+  <div class="mv2"><div><span class="kicker">Who it is for</span><h3>Best suited to</h3><ol class="mvl">${(WHO_FOR[s.slug]||[]).map((t,i)=>`<li><span class="mono">${pad2(i+1)}</span>${t}</li>`).join('')}</ol></div>
+  <div><span class="kicker">Engagement model</span><h3>One senior team, from assessment to closing.</h3><p>${FEES_A}</p><p>A confidential first conversation, an NDA where needed, then a written proposal with scope, timeline and fees before any work begins.</p></div></div></div></section>`;
+    const k=h.indexOf('<section class="band band-blue">');
+    if(k>0)h=h.slice(0,k)+fit+h.slice(k);
     h=h.replace('Usually a fixed component plus a success-linked component, agreed in writing before work begins.',FEES_A);
     return h};
   const ft=footer;footer=()=>ft().replace(/(<ul class="f-office">.*?)(<\/ul>)/s,`$1<li><a href="${LINKEDIN}" target="_blank" rel="noopener">LinkedIn ↗</a></li>$2`);
