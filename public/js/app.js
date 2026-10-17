@@ -835,7 +835,15 @@ const bento=()=>`<section class="bento-sec"><div class="wrap">
   </div>
 </div></section>`;
 
+function addTiles(){
+  // translucent glass tiles (as on the Get in touch card) on blue panels and sections
+  document.querySelectorAll('main .band,main .sec-proc,main .cta,main .phd,main .bpanel,main .ask,main .help,main .bt-a,footer.site').forEach((el,i)=>{
+    if(el.querySelector(':scope>.gtile'))return;
+    const side=i%2?'l':'r',sm=el.matches('.ask,.help,.bt-a,.bpanel')?' sm':'';
+    el.insertAdjacentHTML('afterbegin',`<span class="gtile t1 ${side}${sm}" aria-hidden="true"></span><span class="gtile t2 ${side}${sm}" aria-hidden="true"></span>`)});
+}
 function bindTrend(){
+  addTiles();
   // spotlight follows the pointer on cards
   if(!window.__bmSpot&&matchMedia('(hover:hover)').matches){window.__bmSpot=true;
     document.addEventListener('pointermove',e=>{const el=e.target.closest&&e.target.closest('.spot');if(!el)return;const r=el.getBoundingClientRect();el.style.setProperty('--mx',(e.clientX-r.left)+'px');el.style.setProperty('--my',(e.clientY-r.top)+'px')},{passive:true})}

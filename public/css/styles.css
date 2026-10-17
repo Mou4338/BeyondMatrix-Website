@@ -1228,3 +1228,43 @@ footer.site a.btn-white{color:var(--navy)}
 @media (prefers-reduced-motion:reduce){.lm-ring.r2{animation:none}}
 main>section.band:last-child{border-bottom:1px solid rgba(255,255,255,.1)}
 
+
+/* ===== Glass tiles on blue panels (matches the Get in touch card) ===== */
+.band,.sec-proc,.cta,.phd,.bpanel,.ask,.help,.bt-a,footer.site{position:relative;overflow:hidden}
+.band::after,.sec-proc::after,.cta::after{display:none!important}
+.gtile{position:absolute!important;z-index:0!important;pointer-events:none;border-radius:22px;transform:rotate(-14deg)}
+.gtile.t1{width:300px;height:300px;bottom:-110px;background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.16)}
+.gtile.t2{width:190px;height:190px;bottom:-130px;background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,0));border:1px solid rgba(255,255,255,.11)}
+.gtile.r.t1{right:-80px}.gtile.r.t2{right:150px}
+.gtile.l.t1{left:-80px;transform:rotate(14deg)}.gtile.l.t2{left:150px;transform:rotate(14deg)}
+.gtile.sm.t1{width:170px;height:170px;bottom:-70px;border-radius:16px}
+.gtile.sm.t2{width:110px;height:110px;bottom:-75px;border-radius:14px}
+.gtile.sm.r.t2{right:80px}.gtile.sm.l.t2{left:80px}
+.band>.wrap,.sec-proc>.wrap,.phd>.wrap,footer.site>.wrap{position:relative;z-index:1}
+.cta>*:not(.gtile),.bpanel>*:not(.gtile),.ask>*:not(.gtile),.help>*:not(.gtile),.bt-a>*:not(.gtile){position:relative;z-index:1}
+.phd .phd-line{z-index:0}
+@media (max-width:720px){.gtile.t1{width:200px;height:200px;bottom:-80px}.gtile.t2{width:130px;height:130px;bottom:-90px}.gtile.r.t2{right:90px}.gtile.l.t2{left:90px}}
+
+/* ===== Process stages: segmented tab bar (replaces boxes on a line) ===== */
+.sec-proc .proc-line{display:none}
+.sec-proc .proc-rail{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;padding:0!important;border-bottom:1px solid rgba(255,255,255,.14)}
+.sec-proc .proc-rail button{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:4px 14px;text-align:left;padding:22px 22px 24px;border-left:1px solid rgba(255,255,255,.1);transition:background .2s}
+.sec-proc .proc-rail button:first-of-type{border-left:0}
+.sec-proc .proc-rail button::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:rgba(255,255,255,.08)}
+.sec-proc .proc-rail button.done::after{background:#5E7BD0}
+.sec-proc .proc-rail button[aria-selected="true"]{background:rgba(255,255,255,.07)}
+.sec-proc .proc-rail button[aria-selected="true"]::after{background:#fff}
+.sec-proc .proc-rail button:hover{background:rgba(255,255,255,.05)}
+.sec-proc .proc-rail button:focus-visible{outline:2px solid #8FA7E6;outline-offset:-2px}
+.sec-proc .pdot{all:unset;width:38px!important;height:38px!important;border-radius:50%!important;display:grid!important;place-items:center;font:500 .8rem var(--f-mono)!important;background:#0F2155!important;border:1px solid rgba(143,167,230,.35)!important;color:#B9C8EC!important;box-shadow:none!important;transition:all .25s}
+.sec-proc .proc-rail button.done .pdot{background:#1B3487!important;border-color:#5E7BD0!important;color:#fff!important}
+.sec-proc .proc-rail button[aria-selected="true"] .pdot{background:#fff!important;border-color:#fff!important;color:#081640!important;box-shadow:0 0 0 5px rgba(255,255,255,.12)!important}
+.sec-proc .plbl{font:500 1rem/1.25 var(--f-display)!important;color:#C9D3EA!important}
+.sec-proc .proc-rail button[aria-selected="true"] .plbl{color:#fff!important}
+.sec-proc .proc-panel{margin:18px!important}
+@media (max-width:900px){.sec-proc .proc-rail{grid-template-columns:repeat(5,minmax(150px,1fr));overflow-x:auto;scrollbar-width:none}.sec-proc .proc-rail::-webkit-scrollbar{display:none}}
+@media (max-width:560px){.sec-proc .proc-rail{grid-template-columns:repeat(5,minmax(132px,1fr))}.sec-proc .proc-rail button{padding:16px 14px 18px;gap:4px 10px}.sec-proc .pdot{width:32px!important;height:32px!important}.sec-proc .plbl{font-size:.92rem!important}}
+/* breathing room above the closing CTA banner on every page */
+.cta-sec{padding-top:clamp(64px,8vw,104px)!important}
+/* breathing room above the closing CTA when it follows a coloured section */
+:is(.band,.sec-proc,.alt,.bento-sec,.studio-sec,.tl-sec,.gt-sec,.svc-sec)+.cta-sec{padding-top:clamp(56px,7vw,96px)}
