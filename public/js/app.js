@@ -1062,7 +1062,7 @@ const sectorsSec=()=>`<section class="band band-blue"><div class="wrap sec-split
   const home=P.home;P.home=()=>home().replace('<section class="bento-sec">',stackSection()+'<section class="bento-sec">');
   const about=P['about-us'];P['about-us']=()=>{let h=about();
     h=h.replace(/<section class="band band-blue"><div class="wrap">(<div class="sh">.*?Who we advise)/s,leadership()+'<section class="band band-blue"><div class="wrap">$1');
-    const i=h.indexOf('<section class="sec-proc">');return i>0?h.slice(0,i)+sectorsSec()+h.slice(i):h};
+    const i=h.indexOf(leadership());return i>0?h.slice(0,i)+sectorsSec()+h.slice(i):h};
   const sp=servicePage;servicePage=s=>{let h=sp(s);
     const who=`<div id="sv-wf" class="blk"><span class="kicker">Who it is for</span><h2>Best suited to</h2><ul class="wf">${(WHO_FOR[s.slug]||[]).map((t,i)=>`<li><span class="mono">${pad2(i+1)}</span>${t}</li>`).join('')}</ul></div>`;
     h=h.replace('<div id="sv-tl"',who+'\n    <div id="sv-tl"');
@@ -1071,6 +1071,70 @@ const sectorsSec=()=>`<section class="band band-blue"><div class="wrap sec-split
   const ct=P['contact-us'];P['contact-us']=()=>ct().replace('<tr><th>Hours</th>',`<tr><th>LinkedIn</th><td><a href="${LINKEDIN}" target="_blank" rel="noopener">Beyondmatrix Capital on LinkedIn ${ic('arrow')}</a></td></tr><tr><th>Hours</th>`);
   const ft=footer;footer=()=>ft().replace(/(<ul class="f-office">.*?)(<\/ul>)/s,`$1<li><a href="${LINKEDIN}" target="_blank" rel="noopener">LinkedIn ↗</a></li>$2`);
 })();
+
+/* ===== Service pages: split "Get in touch" card in place of the sidebar form (contact page: 38-contact.js) ===== */
+function gtSvc(s){
+  let f=formHTML(s.slug,s.fields,'Get in touch',`Request ${/^[AEIOU]/.test(s.title)?'an':'a'} ${s.title} consultation. We reply within one business day.`,s.note);
+  f=f.replace('<div class="form-card">','<div class="gt-form">').replace('<div class="form-head">','<div class="gt-head">')
+     .replace(/Submit inquiry /,'Send ').replace('class="btn btn-primary" type="submit"','class="btn gt-send" type="submit"');
+  return `<section class="gt-sec svc-gt" id="consult"><div class="wrap"><div class="gt">
+  <div class="gt-side">
+    <span class="gt-shape s1" aria-hidden="true"></span><span class="gt-shape s2" aria-hidden="true"></span><span class="gt-shape s3" aria-hidden="true"></span>
+    <div class="gt-side-in">
+      <span class="kicker inv">${s.title} · Consultation</span>
+      <h2>Discuss your ${s.title} mandate.</h2>
+      <p>${s.tagline}</p>
+      <div class="gt-list"><span class="gt-lh">What you can expect</span><ul>${s.benefits.slice(0,4).map(t=>`<li>${ic('check')}<span>${t}</span></li>`).join('')}</ul></div>
+      <div class="gt-meta"><div><small>Email</small><b class="mono">${SITE.email}</b></div><div><small>Response</small><b>Within one business day</b></div></div>
+    </div>
+  </div>
+  ${f}
+</div></div></section>`;
+}
+(()=>{
+  const sp=servicePage;servicePage=s=>{let h=sp(s);const a=h.indexOf('<aside class="svc-a" id="consult">');
+    if(a>=0){const b=h.indexOf('</aside>',a);h=h.slice(0,a)+h.slice(b+8)}
+    h=h.replace('<div class="wrap svc-g">','<div class="wrap svc-g svc-wide">');
+    const i=h.indexOf('<section class="band band-blue">');
+    return i>0?h.slice(0,i)+gtSvc(s)+h.slice(i):h+gtSvc(s)};
+})();
+/* ===== Contact: split "Get in touch" card (blue panel + navy form) ===== */
+CONTACT_FIELDS.length=0;
+CONTACT_FIELDS.push({n:'firstName',l:'First name',t:'text',req:1,half:1,ac:'given-name',ph:'Enter your first name'},{n:'lastName',l:'Last name',t:'text',req:1,half:1,ac:'family-name',ph:'Enter your last name'},
+ {n:'email',l:'Email',t:'email',req:1,half:1,ac:'email',ph:'name@company.in'},{n:'phone',l:'Phone number',t:'tel',half:1,ac:'tel',ph:'+91 98XXX XXXXX'},
+ {n:'company',l:'Company name',t:'text',ac:'organization',ph:'Enter your company name'},
+ {n:'subject',l:'What would you like to discuss?',t:'select',req:1,o:['General inquiry','IPO Advisory','Fund Raising','Debt Advisory','Virtual CFO Services','Mergers & Acquisitions','Corporate Finance Advisory','Media / partnerships']},
+ {n:'message',l:'Add comments',t:'textarea',req:1,max:1500,ph:'Briefly describe your requirement, e.g. raising ₹25 crore growth capital for a new plant.'});
+function gtCard(){
+  let f=formHTML('contact',CONTACT_FIELDS,'Get in touch','We will get back to you within one business day.');
+  f=f.replace('<div class="form-card">','<div class="gt-form">').replace('<div class="form-head">','<div class="gt-head">')
+     .replace(/Submit inquiry /,'Send ').replace('class="btn btn-primary" type="submit"','class="btn gt-send" type="submit"');
+  return `<section class="gt-sec" id="consult"><div class="wrap"><div class="gt">
+  <div class="gt-side">
+    <span class="gt-shape s1" aria-hidden="true"></span><span class="gt-shape s2" aria-hidden="true"></span><span class="gt-shape s3" aria-hidden="true"></span>
+    <div class="gt-side-in">
+      <span class="kicker inv">Beyond Matrix Capital</span>
+      <h2>One partner for capital, listing and growth.</h2>
+      <p>Raise capital, borrow better, list with confidence and run finance with discipline, with one senior team from first call to closing.</p>
+      <div class="gt-list"><span class="gt-lh">Our practices</span><ul>${SERVICES.map(s=>`<li>${ic('check')}<a href="#${s.slug}">${s.title}</a></li>`).join('')}</ul></div>
+      <div class="gt-meta"><div><small>Email</small><b class="mono">${SITE.email}</b></div><div><small>Response</small><b>Within one business day</b></div></div>
+    </div>
+  </div>
+  ${f}
+</div></div></section>`;
+}
+P['contact-us']=()=>{FIGN=0;return `${pageHead('<span>Contact</span>','Contact','Strategic advisory hub in Mumbai.','Headquartered at Raylon Arcade in the J.B. Nagar business corridor, Andheri East. Write to us, visit, or send an inquiry below.')}
+${gtCard()}
+<section class="ct2-sec"><div class="wrap ct2">
+  <div class="ct-l">
+    <div class="help"><div><span class="kicker inv">Our helpline</span><p>Questions about raising capital, IPOs or loans? Email us and a senior adviser will reply within one business day.</p><b class="mono help-mail">${SITE.email}</b></div><button class="btn btn-white btn-sm" data-copy="${SITE.email}">Copy email</button></div>
+    <div><span class="kicker">Quick topics</span><div class="topics">${TOPICS.map(t=>`<button class="topic" data-topic="${t}">${t}</button>`).join('')}</div></div>
+  </div>
+  <table class="office"><tbody>${[['Office',SITE.address+`<div class="o-act"><button class="lnk" data-copy="${SITE.address}">Copy address</button><a class="lnk" href="https://www.google.com/maps/search/?api=1&query=Raylon+Arcade+Kondivita+Andheri+East+Mumbai" target="_blank" rel="noopener">Get directions ${ic('arrow')}</a></div>`],['Email',`<span class="mono">${SITE.email}</span>`],['LinkedIn',`<a href="${LINKEDIN}" target="_blank" rel="noopener">Beyondmatrix Capital on LinkedIn ${ic('arrow')}</a>`],['Hours',SITE.hours],['Response','Within one business day']].map(([k,v])=>`<tr><th>${k}</th><td>${v}</td></tr>`).join('')}</tbody></table>
+</div>
+<div class="wrap"><div class="bpanel ct-next"><span class="kicker">What happens next</span><ol class="steps3">${[['Inquiry received','You get a reference number straight away.'],['Adviser call','A senior adviser calls within one business day.'],['Scoped proposal','If there is a fit, you receive scope and fees in writing.']].map(([t,d],i)=>`<li><span>${pad2(i+1)}</span><b>${t}</b><p>${d}</p></li>`).join('')}</ol></div></div></section>
+<section class="band band-blue"><div class="wrap">${secHead('','How we can help','Six practices, one senior team.','Not sure which to choose? Pick the closest match, or simply describe your situation in the form above.')}<div class="aud4 g3">${SERVICES.map(x=>`<a class="aud-c spot" href="#${x.slug}"><span class="aud-n">${pad2(SERVICES.indexOf(x)+1)}</span><h3>${x.title}</h3><p>${x.short}</p><span class="lnk">View practice ${ic('arrow')}</span></a>`).join('')}</div></div></section>`};
+const __bc=bindContact;bindContact=function(){__bc();document.querySelectorAll('.topic').forEach(b=>{const o=b.onclick;b.onclick=()=>{o&&o();setTimeout(()=>document.getElementById('f-contact-firstName')?.focus({preventScroll:true}),460)}})};
 /* ===== Router and behaviour ===== */
 const app=document.getElementById('app');
 const ROUTES=['home','about-us','services','contact-us','privacy-policy','terms-and-conditions','toolkit','admin',...SERVICES.map(s=>s.slug)];
