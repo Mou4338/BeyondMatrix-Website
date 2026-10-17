@@ -836,11 +836,15 @@ const bento=()=>`<section class="bento-sec"><div class="wrap">
 </div></section>`;
 
 function addTiles(){
-  // translucent glass tiles (as on the Get in touch card) on blue panels and sections
-  document.querySelectorAll('main .band,main .sec-proc,main .cta,main .phd,main .bpanel,main .ask,main .help,main .bt-a,footer.site').forEach((el,i)=>{
+  // translucent glass tiles on some blue sections (never on page heroes): varied corner layouts, some sections left plain
+  const PAT=['diag-a','pair-r','none','diag-b','pair-l','none'];
+  document.querySelectorAll('main .band,main .sec-proc,main .cta,main .bpanel').forEach((el,i)=>{
     if(el.querySelector(':scope>.gtile'))return;
-    const side=i%2?'l':'r',sm=el.matches('.ask,.help,.bt-a,.bpanel')?' sm':'';
-    el.insertAdjacentHTML('afterbegin',`<span class="gtile t1 ${side}${sm}" aria-hidden="true"></span><span class="gtile t2 ${side}${sm}" aria-hidden="true"></span>`)});
+    const pat=PAT[i%PAT.length];if(pat==='none')return;
+    const sm=el.matches('.bpanel,.cta')?' sm':'';
+    const pos=pat==='diag-a'?['tr','bl']:pat==='diag-b'?['tl','br']:pat==='pair-r'?['br','br2']:['bl','bl2'];
+    el.insertAdjacentHTML('afterbegin',pos.map((p,k)=>`<span class="gtile ${k?'t2':'t1'} p-${p}${sm}" aria-hidden="true"></span>`).join(''));
+  });
 }
 function bindTrend(){
   addTiles();

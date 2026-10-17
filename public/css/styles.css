@@ -1231,19 +1231,27 @@ main>section.band:last-child{border-bottom:1px solid rgba(255,255,255,.1)}
 
 /* ===== Glass tiles on blue panels (matches the Get in touch card) ===== */
 .band,.sec-proc,.cta,.phd,.bpanel,.ask,.help,.bt-a,footer.site{position:relative;overflow:hidden}
+.phd .gtile,footer.site .gtile{display:none!important}
 .band::after,.sec-proc::after,.cta::after{display:none!important}
 .gtile{position:absolute!important;z-index:0!important;pointer-events:none;border-radius:22px;transform:rotate(-14deg)}
-.gtile.t1{width:300px;height:300px;bottom:-110px;background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.16)}
-.gtile.t2{width:190px;height:190px;bottom:-130px;background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,0));border:1px solid rgba(255,255,255,.11)}
-.gtile.r.t1{right:-80px}.gtile.r.t2{right:150px}
-.gtile.l.t1{left:-80px;transform:rotate(14deg)}.gtile.l.t2{left:150px;transform:rotate(14deg)}
-.gtile.sm.t1{width:170px;height:170px;bottom:-70px;border-radius:16px}
-.gtile.sm.t2{width:110px;height:110px;bottom:-75px;border-radius:14px}
-.gtile.sm.r.t2{right:80px}.gtile.sm.l.t2{left:80px}
+.gtile.t1{width:300px;height:300px;background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.16)}
+.gtile.t2{width:200px;height:200px;background:linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,0));border:1px solid rgba(255,255,255,.12)}
+.gtile.p-tr{top:-120px;right:-90px;transform:rotate(16deg)}
+.gtile.p-tl{top:-120px;left:-90px;transform:rotate(-16deg)}
+.gtile.p-br{bottom:-110px;right:-80px;transform:rotate(-14deg)}
+.gtile.p-bl{bottom:-110px;left:-80px;transform:rotate(14deg)}
+.gtile.p-br2{bottom:-130px;right:150px;transform:rotate(-14deg)}
+.gtile.p-bl2{bottom:-130px;left:150px;transform:rotate(14deg)}
+.gtile.t2.p-bl,.gtile.t2.p-br{bottom:-90px}
+.gtile.t2.p-tl,.gtile.t2.p-tr{top:-90px}
+.gtile.sm{border-radius:16px}
+.gtile.sm.t1{width:180px;height:180px}.gtile.sm.t2{width:130px;height:130px}
+.gtile.sm.p-tr,.gtile.sm.p-tl{top:-80px}.gtile.sm.p-br,.gtile.sm.p-bl{bottom:-70px}
+.gtile.sm.p-br2{right:90px;bottom:-85px}.gtile.sm.p-bl2{left:90px;bottom:-85px}
 .band>.wrap,.sec-proc>.wrap,.phd>.wrap,footer.site>.wrap{position:relative;z-index:1}
 .cta>*:not(.gtile),.bpanel>*:not(.gtile),.ask>*:not(.gtile),.help>*:not(.gtile),.bt-a>*:not(.gtile){position:relative;z-index:1}
 .phd .phd-line{z-index:0}
-@media (max-width:720px){.gtile.t1{width:200px;height:200px;bottom:-80px}.gtile.t2{width:130px;height:130px;bottom:-90px}.gtile.r.t2{right:90px}.gtile.l.t2{left:90px}}
+@media (max-width:720px){.gtile.t1{width:190px;height:190px}.gtile.t2{width:130px;height:130px}.gtile.p-br2{right:90px}.gtile.p-bl2{left:90px}}
 
 /* ===== Process stages: segmented tab bar (replaces boxes on a line) ===== */
 .sec-proc .proc-line{display:none}
