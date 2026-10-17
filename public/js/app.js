@@ -1073,7 +1073,12 @@ const sectorsSec=()=>`<section class="band band-blue"><div class="wrap sec-split
 
 /* wire into pages */
 (()=>{
-  const home=P.home;P.home=()=>home().replace('<section class="bento-sec">',stackSection()+'<section class="bento-sec">');
+  const home=P.home;P.home=()=>{let h=home().replace('<section class="bento-sec">',stackSection()+'<section class="bento-sec">');
+    const fit=`<section class="band band-deep" data-tiles="diag-a"><div class="wrap">${secHead('','Fit and engagement','Who we work with, and how we work.','')}
+  <div class="mv2"><div><span class="kicker">Who we work with</span><h3>Best suited to</h3><ol class="mvl">${['Growing private companies raising their first institutional round','Mid-market enterprises planning debt, acquisitions or a listing','Profitable companies preparing for an SME or Mainboard IPO','Promoters planning an exit, succession or reorganisation'].map((t,i)=>`<li><span class="mono">${pad2(i+1)}</span>${t}</li>`).join('')}</ol></div>
+  <div><span class="kicker">Engagement model</span><h3>One senior team, from assessment to closing.</h3><p>${FEES_A}</p><p>A confidential first conversation, an NDA where needed, then a written proposal with scope, timeline and fees before any work begins.</p></div></div></div></section>`;
+    const k=h.indexOf('<section class="alt"><div class="wrap"><div class="faq2">');
+    return k>0?h.slice(0,k)+fit+h.slice(k):h};
   const about=P['about-us'];P['about-us']=()=>{let h=about();
     h=h.replace(/<section class="band band-blue"><div class="wrap">(<div class="sh">.*?Who we advise)/s,leadership()+'<section class="band band-blue"><div class="wrap">$1');
     const i=h.indexOf(leadership());return i>0?h.slice(0,i)+sectorsSec()+h.slice(i):h};
@@ -1183,10 +1188,10 @@ ${gtCard()}
     </div>
   </div>
 </div></section>
+<section class="band band-blue"><div class="wrap">${secHead('','How we can help','Six practices, one senior team.','Not sure which to choose? Pick the closest match, or simply describe your situation in the form above.')}<div class="aud4 g3">${SERVICES.map(x=>`<a class="aud-c spot" href="#${x.slug}"><span class="aud-n">${pad2(SERVICES.indexOf(x)+1)}</span><h3>${x.title}</h3><p>${x.short}</p><span class="lnk">View practice ${ic('arrow')}</span></a>`).join('')}</div></div></section>
 <section class="tl-sec"><div class="wrap">${secHead('','What happens next','From inquiry to proposal in three steps.','')}
   <ol class="tl3">${[['Inquiry received','You get a reference number on screen straight away.','Day 0'],['Adviser call','A senior adviser calls to understand your goals, in confidence.','Within 1 business day'],['Scoped proposal','If there is a fit, you receive scope, timeline and fees in writing.','Within a week']].map(([t,d,w],i)=>`<li><span class="tl-n">${pad2(i+1)}</span><span class="tl-w mono">${w}</span><b>${t}</b><p>${d}</p></li>`).join('')}</ol>
-</div></section>
-<section class="band band-blue"><div class="wrap">${secHead('','How we can help','Six practices, one senior team.','Not sure which to choose? Pick the closest match, or simply describe your situation in the form above.')}<div class="aud4 g3">${SERVICES.map(x=>`<a class="aud-c spot" href="#${x.slug}"><span class="aud-n">${pad2(SERVICES.indexOf(x)+1)}</span><h3>${x.title}</h3><p>${x.short}</p><span class="lnk">View practice ${ic('arrow')}</span></a>`).join('')}</div></div></section>`};
+</div></section>`};
 const __bc=bindContact;bindContact=function(){__bc();document.querySelectorAll('.topic').forEach(b=>{const o=b.onclick;b.onclick=()=>{o&&o();setTimeout(()=>document.getElementById('f-contact-firstName')?.focus({preventScroll:true}),460)}})};
 /* ===== Router and behaviour ===== */
 const app=document.getElementById('app');

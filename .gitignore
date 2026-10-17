@@ -4,3 +4,10 @@ node_modules/
 .vercel/
 .DS_Store
 Thumbs.db
+
+# Not part of the website (keep installers and other software out of this folder)
+Autodesk/
+*.exe
+*.msi
+*.iso
+*.zip
