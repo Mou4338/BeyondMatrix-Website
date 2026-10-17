@@ -1068,7 +1068,6 @@ const sectorsSec=()=>`<section class="band band-blue"><div class="wrap sec-split
     h=h.replace('<div id="sv-tl"',who+'\n    <div id="sv-tl"');
     h=h.replace('Usually a fixed component plus a success-linked component, agreed in writing before work begins.',FEES_A);
     return h};
-  const ct=P['contact-us'];P['contact-us']=()=>ct().replace('<tr><th>Hours</th>',`<tr><th>LinkedIn</th><td><a href="${LINKEDIN}" target="_blank" rel="noopener">Beyondmatrix Capital on LinkedIn ${ic('arrow')}</a></td></tr><tr><th>Hours</th>`);
   const ft=footer;footer=()=>ft().replace(/(<ul class="f-office">.*?)(<\/ul>)/s,`$1<li><a href="${LINKEDIN}" target="_blank" rel="noopener">LinkedIn ↗</a></li>$2`);
 })();
 
@@ -1123,16 +1122,38 @@ function gtCard(){
   ${f}
 </div></div></section>`;
 }
+const MAP_Q='https://www.google.com/maps/search/?api=1&query=Raylon+Arcade+Kondivita+Andheri+East+Mumbai';
+const locCard=()=>{let g='';for(let i=1;i<10;i++)g+=`<line x1="${i*48}" y1="0" x2="${i*48}" y2="300"/>`;for(let i=1;i<7;i++)g+=`<line x1="0" y1="${i*48}" x2="480" y2="${i*48}"/>`;
+  return `<div class="loc">
+  <svg class="loc-map" viewBox="0 0 480 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g class="lm-grid">${g}</g>
+    <path class="lm-road" d="M-10 210 C 90 190, 150 120, 250 128 S 420 70, 490 52"/><path class="lm-road thin" d="M120 -10 C 140 80, 170 160, 160 310"/><path class="lm-road thin" d="M300 310 C 290 230, 330 170, 360 -10"/>
+    <circle class="lm-ring r2" cx="252" cy="128" r="46"/><circle class="lm-ring" cx="252" cy="128" r="24"/><circle class="lm-dot" cx="252" cy="128" r="7"/></svg>
+  <div class="loc-in"><span class="kicker inv">Head office</span><h3>Raylon Arcade, Andheri East</h3><p>${SITE.address}</p>
+    <div class="loc-meta"><span class="mono">19.11° N · 72.87° E</span><span>J.B. Nagar business corridor</span></div>
+    <div class="loc-act"><a class="btn btn-white btn-sm" href="${MAP_Q}" target="_blank" rel="noopener">Get directions</a><button class="btn btn-line-inv btn-sm" data-copy="${SITE.address}">Copy address</button></div></div>
+</div>`};
+const infoCards=()=>`<div class="ci4">${[
+  ['mail','Write to us',`<span class="mono">${SITE.email}</span>`,`<button class="ci-act" data-copy="${SITE.email}">Copy email</button>`],
+  ['clock','Office hours',SITE.hours,'<span class="ci-note">Closed on Sundays and public holidays</span>'],
+  ['users','Connect','Beyondmatrix Capital on LinkedIn',`<a class="ci-act" href="${LINKEDIN}" target="_blank" rel="noopener">Open LinkedIn</a>`],
+  ['shield','Response','Within one business day','<span class="ci-note">Every inquiry is read by a senior adviser</span>']
+ ].map(([i,t,v,a])=>`<div class="ci spot"><span class="ci-ico">${ic(i)}</span><span class="kicker">${t}</span><b>${v}</b>${a}</div>`).join('')}</div>`;
 P['contact-us']=()=>{FIGN=0;return `${pageHead('<span>Contact</span>','Contact','Strategic advisory hub in Mumbai.','Headquartered at Raylon Arcade in the J.B. Nagar business corridor, Andheri East. Write to us, visit, or send an inquiry below.')}
 ${gtCard()}
-<section class="ct2-sec"><div class="wrap ct2">
-  <div class="ct-l">
-    <div class="help"><div><span class="kicker inv">Our helpline</span><p>Questions about raising capital, IPOs or loans? Email us and a senior adviser will reply within one business day.</p><b class="mono help-mail">${SITE.email}</b></div><button class="btn btn-white btn-sm" data-copy="${SITE.email}">Copy email</button></div>
-    <div><span class="kicker">Quick topics</span><div class="topics">${TOPICS.map(t=>`<button class="topic" data-topic="${t}">${t}</button>`).join('')}</div></div>
+<section class="ct3-sec"><div class="wrap">
+  ${infoCards()}
+  <div class="ct3">
+    ${locCard()}
+    <div class="ct3-r">
+      ${secHead('','Quick topics','What would you like to discuss?','Pick a topic and we will prefill the form above for you.')}
+      <div class="topics pills">${TOPICS.map(t=>`<button class="topic" data-topic="${t}">${t}</button>`).join('')}</div>
+      <div class="help2"><span class="kicker">Prefer email?</span><p>Questions about raising capital, IPOs or loans? Write to <b class="mono">${SITE.email}</b> and a senior adviser will reply within one business day.</p></div>
+    </div>
   </div>
-  <table class="office"><tbody>${[['Office',SITE.address+`<div class="o-act"><button class="lnk" data-copy="${SITE.address}">Copy address</button><a class="lnk" href="https://www.google.com/maps/search/?api=1&query=Raylon+Arcade+Kondivita+Andheri+East+Mumbai" target="_blank" rel="noopener">Get directions ${ic('arrow')}</a></div>`],['Email',`<span class="mono">${SITE.email}</span>`],['LinkedIn',`<a href="${LINKEDIN}" target="_blank" rel="noopener">Beyondmatrix Capital on LinkedIn ${ic('arrow')}</a>`],['Hours',SITE.hours],['Response','Within one business day']].map(([k,v])=>`<tr><th>${k}</th><td>${v}</td></tr>`).join('')}</tbody></table>
-</div>
-<div class="wrap"><div class="bpanel ct-next"><span class="kicker">What happens next</span><ol class="steps3">${[['Inquiry received','You get a reference number straight away.'],['Adviser call','A senior adviser calls within one business day.'],['Scoped proposal','If there is a fit, you receive scope and fees in writing.']].map(([t,d],i)=>`<li><span>${pad2(i+1)}</span><b>${t}</b><p>${d}</p></li>`).join('')}</ol></div></div></section>
+</div></section>
+<section class="tl-sec"><div class="wrap">${secHead('','What happens next','From inquiry to proposal in three steps.','')}
+  <ol class="tl3">${[['Inquiry received','You get a reference number on screen straight away.','Day 0'],['Adviser call','A senior adviser calls to understand your goals, in confidence.','Within 1 business day'],['Scoped proposal','If there is a fit, you receive scope, timeline and fees in writing.','Within a week']].map(([t,d,w],i)=>`<li><span class="tl-n">${pad2(i+1)}</span><span class="tl-w mono">${w}</span><b>${t}</b><p>${d}</p></li>`).join('')}</ol>
+</div></section>
 <section class="band band-blue"><div class="wrap">${secHead('','How we can help','Six practices, one senior team.','Not sure which to choose? Pick the closest match, or simply describe your situation in the form above.')}<div class="aud4 g3">${SERVICES.map(x=>`<a class="aud-c spot" href="#${x.slug}"><span class="aud-n">${pad2(SERVICES.indexOf(x)+1)}</span><h3>${x.title}</h3><p>${x.short}</p><span class="lnk">View practice ${ic('arrow')}</span></a>`).join('')}</div></div></section>`};
 const __bc=bindContact;bindContact=function(){__bc();document.querySelectorAll('.topic').forEach(b=>{const o=b.onclick;b.onclick=()=>{o&&o();setTimeout(()=>document.getElementById('f-contact-firstName')?.focus({preventScroll:true}),460)}})};
 /* ===== Router and behaviour ===== */
